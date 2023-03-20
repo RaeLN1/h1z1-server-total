@@ -13,6 +13,7 @@
     * Whitelist check
     * Translations
     * Logout timer
+    * Third / First person sniper
 * zoneserver.ts
     * Max Ping
     * Custom decrypt key
@@ -24,11 +25,14 @@
     * Hammer durability increased
     * Stack ammo dismantle
     * Removed combatlog condition to dead players
+* zoneclient.ts
+    * Third / First person sniper
 * commands.ts
     * Translations
     * Discord Hook Ban Channel on Ban
     * Removed "shutdown" command
     * Changed permissions
+    * Third / First person sniper
 * lootspawns.ts
     * Custom lootspawn values
     * GROUND_TILLER added on ItemSpawnerFarm.adr
@@ -54,16 +58,3 @@
     * Increased render distance
 * lootableprops.ts
     * Reduced search times
-
------
-
-Verificar com o Kentin quais novos programas ele adicionou ao encryptedData.json
-Verificar como funciona o _fairPlayDecryptKey
-Verificar whitelist h1emu no zoneserver.ts "case "CharacterAllowedRequest": {"
-
-----
-
-Testar discord webhook
-Testar whitelist
-Testar encryptedProcessList
-Testar drop dos itens

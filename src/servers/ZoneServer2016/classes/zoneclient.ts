@@ -25,6 +25,7 @@ export class ZoneClient2016 {
   guid?: string;
   character: Character2016;
   currentPOI?: number;
+  forceFpScope?: boolean = false;
   firstLoading: boolean = false;
   isLoading: boolean = true;
   characterReleased: boolean = false;

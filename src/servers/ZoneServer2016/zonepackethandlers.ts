@@ -400,9 +400,7 @@ export class zonePacketHandlers {
       client.isMovementBlocked = false;
     }
     if (
-      //packet.data.file === server.fairPlayValues?.requiredFile2 &&
-      // Temporary fix until we get fairPlayValues
-      packet.data.file === "ClientProc.log" &&
+      packet.data.file === server.fairPlayValues?.requiredFile2 &&
       !client.clientLogs.includes(packet.data.message) &&
       !client.isAdmin
     ) {

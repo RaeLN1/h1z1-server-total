@@ -46,6 +46,30 @@ const itemDefinitions = require("./../../../../data/2016/dataSources/ServerItemD
 export const commands: Array<Command> = [
   //#region DEFAULT PERMISSIONS
   {
+    name: "sniper1p",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: async (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      client.forceFpScope = true;
+      await server._db.collection(DB_COLLECTIONS.CHARACTERS).updateOne({ characterId: client.character.characterId }, {
+        $set: { forceFpScope: client.forceFpScope }
+      });
+
+      server.sendChatText(client, `Modo SNIPER PRIMEIRA PESSOA ativado com sucesso, favor relogar para aplicar a alteração..`);
+    },
+  },
+  {
+    name: "sniper3p",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: async (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      client.forceFpScope = false;
+      await server._db.collection(DB_COLLECTIONS.CHARACTERS).updateOne({ characterId: client.character.characterId }, {
+        $set: { forceFpScope: client.forceFpScope }
+      });
+      
+      server.sendChatText(client, `Modo SNIPER TERCEIRA PESSOA ativado com sucesso, favor relogar para aplicar a alteração..`);
+    },
+  },
+  {
     name: "me",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {

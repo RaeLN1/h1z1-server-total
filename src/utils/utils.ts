@@ -261,13 +261,16 @@ export const getAppDataFolderPath = (): string => {
 };
 
 export function generateRandomKey() {
-  const key = crypto.randomBytes(32);
-  const hash = crypto.createHash('sha256');
-  hash.update(key);
-  return hash.digest().toString('hex');
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let key = '';
+  for (let i = 0; i < 32; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    key += characters.charAt(randomIndex);
+  }
+  return key;
 }
 
-export function encrypt(text: string, key: Buffer) {
+export function encrypt(text: string, key: string) {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
 
@@ -282,12 +285,12 @@ export function encrypt(text: string, key: Buffer) {
 
 export function decrypt(
   text: { iv: string; encryptedData: string },
-  key: Buffer
+  key: string
 ): string {
   const iv = Buffer.from(text.iv, "hex");
   const encryptedText = Buffer.from(text.encryptedData, "hex");
 
-  const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
+  const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(key), iv);
 
   let decrypted = decipher.update(encryptedText);
   decrypted = Buffer.concat([decrypted, decipher.final()]);

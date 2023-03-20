@@ -187,7 +187,7 @@ export class ZoneServer2016 extends EventEmitter {
   _useFairPlay = true;
   _maxPing = 500;
   _decryptKey: string = process.env.DECRYPT_KEY || "";
-  _fairPlayDecryptKey: string = "";
+  _fairPlayDecryptKey: string = process.env.DECRYPT_KEY_FAIR_PLAY || "";
   _serverName = process.env.SERVER_NAME || "";
   readonly _mongoAddress: string;
   private readonly _clientProtocol = "ClientProtocol_1080";
@@ -281,6 +281,8 @@ export class ZoneServer2016 extends EventEmitter {
     weaponDefinitions.FIRE_MODE_DEFINITIONS;
   itemDefinitionsCache: any;
   weaponDefinitionsCache: any;
+  weaponDefinitionsCacheFP: any;
+  weaponDefinitionsCacheTP: any;
   projectileDefinitionsCache: any;
   profileDefinitionsCache: any;
   _containerDefinitions: { [containerDefinitionId: number]: any } =
@@ -604,9 +606,11 @@ export class ZoneServer2016 extends EventEmitter {
     return isAllowed;
   }
 
-  onZoneLoginEvent(client: Client) {
+  async onZoneLoginEvent(client: Client) {
     debug("Zona de login");
     try {
+      const character = await this._db.collection(DB_COLLECTIONS.CHARACTERS).findOne({characterId: client.character.characterId});
+      client.forceFpScope = character?.forceFpScope;
       this.sendInitData(client);
     } catch (error) {
       debug(error);
@@ -934,6 +938,68 @@ export class ZoneServer2016 extends EventEmitter {
         },
       }
     );
+
+    weaponDefinitions.FIRE_MODE_DEFINITIONS["19"]["DATA"]["DATA"]["FORCE_FP_SCOPE"] = true;
+    weaponDefinitions.FIRE_MODE_DEFINITIONS["20"]["DATA"]["DATA"]["FORCE_FP_SCOPE"] = true;
+
+    this.weaponDefinitionsCacheFP = this._protocol.pack(
+      "ReferenceData.WeaponDefinitions",
+      {
+        data: {
+          definitionsData: {
+            WEAPON_DEFINITIONS: Object.values(
+              weaponDefinitions.WEAPON_DEFINITIONS
+            ),
+            FIRE_GROUP_DEFINITIONS: Object.values(
+              weaponDefinitions.FIRE_GROUP_DEFINITIONS
+            ),
+            FIRE_MODE_DEFINITIONS: Object.values(
+              weaponDefinitions.FIRE_MODE_DEFINITIONS
+            ),
+            PLAYER_STATE_GROUP_DEFINITIONS: Object.values(
+              weaponDefinitions.PLAYER_STATE_GROUP_DEFINITIONS
+            ),
+            FIRE_MODE_PROJECTILE_MAPPING_DATA: Object.values(
+              weaponDefinitions.FIRE_MODE_PROJECTILE_MAPPING_DATA
+            ),
+            AIM_ASSIST_DEFINITIONS: Object.values(
+              weaponDefinitions.AIM_ASSIST_DEFINITIONS
+            ),
+          },
+        },
+      }
+    );
+
+    weaponDefinitions.FIRE_MODE_DEFINITIONS["19"]["DATA"]["DATA"]["FORCE_FP_SCOPE"] = false;
+    weaponDefinitions.FIRE_MODE_DEFINITIONS["20"]["DATA"]["DATA"]["FORCE_FP_SCOPE"] = false;
+
+    this.weaponDefinitionsCacheTP = this._protocol.pack(
+      "ReferenceData.WeaponDefinitions",
+      {
+        data: {
+          definitionsData: {
+            WEAPON_DEFINITIONS: Object.values(
+              weaponDefinitions.WEAPON_DEFINITIONS
+            ),
+            FIRE_GROUP_DEFINITIONS: Object.values(
+              weaponDefinitions.FIRE_GROUP_DEFINITIONS
+            ),
+            FIRE_MODE_DEFINITIONS: Object.values(
+              weaponDefinitions.FIRE_MODE_DEFINITIONS
+            ),
+            PLAYER_STATE_GROUP_DEFINITIONS: Object.values(
+              weaponDefinitions.PLAYER_STATE_GROUP_DEFINITIONS
+            ),
+            FIRE_MODE_PROJECTILE_MAPPING_DATA: Object.values(
+              weaponDefinitions.FIRE_MODE_PROJECTILE_MAPPING_DATA
+            ),
+            AIM_ASSIST_DEFINITIONS: Object.values(
+              weaponDefinitions.AIM_ASSIST_DEFINITIONS
+            ),
+          },
+        },
+      }
+    );
   }
 
   /**
@@ -1196,13 +1262,13 @@ export class ZoneServer2016 extends EventEmitter {
     if (this._decryptKey) {
       this._suspiciousList = encryptedData.map(
         (x: { iv: string; encryptedData: string }) =>
-          decrypt(x, Buffer.from(this._decryptKey, 'hex'))
+          decrypt(x, this._decryptKey)
       );
     }
     if (this._fairPlayDecryptKey && this._useFairPlay) {
       const decryptedData = fairPlayData.map(
         (x: { iv: string; encryptedData: string }) =>
-          decrypt(x, Buffer.from(this._fairPlayDecryptKey, 'hex'))
+          decrypt(x, this._fairPlayDecryptKey)
       );
       this.fairPlayValues = {
         defaultMaxProjectileSpeed: Number(decryptedData[0]),
@@ -1373,7 +1439,11 @@ export class ZoneServer2016 extends EventEmitter {
     if (!this.weaponDefinitionsCache) {
       this.packWeaponDefinitions();
     }
-    this.sendRawData(client, this.weaponDefinitionsCache);
+    if (client.forceFpScope !== null) {
+      this.sendRawData(client, client.forceFpScope ? this.weaponDefinitionsCacheFP : this.weaponDefinitionsCacheTP);
+    } else {
+      this.sendRawData(client, this.weaponDefinitionsCache);
+    }
     // packet is just broken, idk why
     /*
     this.sendData(client, "ClientBeginZoning", {
