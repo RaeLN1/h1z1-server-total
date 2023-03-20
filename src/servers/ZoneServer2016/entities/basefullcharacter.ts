@@ -814,7 +814,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
     const isWeapon = server.isWeapon(item.itemDefinitionId);
     switch (true) {
       case server.isWeapon(item.itemDefinitionId):
-        durability = 2000;
+        durability = item.itemDefinitionId === Items.WEAPON_HAMMER ? 7000 : 2000;
         break;
       case server.isArmor(item.itemDefinitionId):
         durability = 1000;

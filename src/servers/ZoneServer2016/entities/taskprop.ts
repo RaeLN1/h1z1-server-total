@@ -142,7 +142,7 @@ export class TaskProp extends BaseLightweightCharacter {
     // return empty ones, need more info and time to get other quests working
     const removedItem = client.character.getItemById(this.requiredItemId);
     if (!removedItem) {
-      server.sendAlert(client, "This locker is locked.");
+      server.sendAlert(client, "Este armário está trancado...");
       return;
     }
     const itemsPassed: { itemDefinitionId: number; count: number }[] = [];

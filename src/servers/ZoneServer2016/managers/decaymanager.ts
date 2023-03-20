@@ -116,7 +116,7 @@ export class DecayManager {
     if (!dictionary[entity.characterId]) return;
     entity.damage(server, {
       entity: "Server.DecayManager",
-      damage: 125000,
+      damage: 62500,
     });
     server.updateResourceToAllWithSpawnedEntity(
       entity.characterId,

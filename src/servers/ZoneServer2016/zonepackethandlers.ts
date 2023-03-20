@@ -126,9 +126,12 @@ export class zonePacketHandlers {
 
     server.sendData(client, "ZoneDoneSendingInitialData", {}); // Required for WaitForWorldReady
   }
-  ClientFinishedLoading(server: ZoneServer2016, client: Client, packet: any) {
+  async ClientFinishedLoading(server: ZoneServer2016, client: Client, packet: any) {
     if (!server.hookManager.checkHook("OnClientFinishedLoading", client))
       return;
+
+    const isAllowed = await server.isWhiteListed(client);
+    if (!isAllowed) return;
 
     server.tempGodMode(client, 15000);
     client.currentPOI = 0; // clears currentPOI for POIManager
@@ -138,13 +141,13 @@ export class zonePacketHandlers {
       client.character.lastLoginDate = toHex(Date.now());
       server.setGodMode(client, false);
       setTimeout(() => {
-        server.sendAlert(client, "Welcome to H1emu! :D");
+        server.sendAlert(client, "Bem vindos ao servidor TOTAL, divirtam-se!");
         server.sendChatText(
           client,
           `server population : ${_.size(server._characters)}`
         );
         if (client.isAdmin) {
-          server.sendAlert(client, "You are an admin!");
+          server.sendAlert(client, "ADM TOTAL");
         }
       }, 10000);
       if (client.banType != "") {
@@ -397,7 +400,9 @@ export class zonePacketHandlers {
       client.isMovementBlocked = false;
     }
     if (
-      packet.data.file === server.fairPlayValues?.requiredFile2 &&
+      //packet.data.file === server.fairPlayValues?.requiredFile2 &&
+      // Temporary fix until we get fairPlayValues
+      packet.data.file === "ClientProc.log" &&
       !client.clientLogs.includes(packet.data.message) &&
       !client.isAdmin
     ) {
@@ -549,7 +554,7 @@ export class zonePacketHandlers {
     }
     server.dismountVehicle(client);
     client.character.dismountContainer(server);
-    const timerTime = 10000;
+    const timerTime = 15000;
     server.sendData(client, "ClientUpdate.StartTimer", {
       stringId: 0,
       time: timerTime,

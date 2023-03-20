@@ -7,41 +7,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch ZoneServer",
+            "name": "LoginServer",
             "env":{
                 "VSCODE_DEBUG":"true",
-            },
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/out/servers/ZoneServer2015/zoneserver.js",
-            "outFiles": [
-                "${workspaceFolder}/out/**/*.js"
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch ZoneServer with MongoDB",
-            "env":{
-                "VSCODE_DEBUG":"true",
-                "MONGO_URL":"mongodb://localhost:27017/",
-                "LOGINSERVER_IP":"127.0.0.1"
-            },
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/out/servers/ZoneServer2015/zoneserver.js",
-            "outFiles": [
-                "${workspaceFolder}/out/**/*.js"
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch LoginServer",
-            "env":{
-                "VSCODE_DEBUG":"true"    
+                "MONGO_URL":"mongodb://127.0.0.1:27017/",
+                "DEBUG":"*"
             },
             "skipFiles": [
                 "<node_internals>/**"
@@ -49,49 +19,22 @@
             "program": "${workspaceFolder}/out/servers/LoginServer/loginserver.js",
             "outFiles": [
                 "${workspaceFolder}/out/**/*.js"
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch LoginServer with MongoDB",
-            "env":{
-                "VSCODE_DEBUG":"true",
-                "MONGO_URL":"mongodb://localhost:27017/"
-            },
-            "skipFiles": [
-                "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/out/servers/LoginServer/loginserver.js",
-            "outFiles": [
-                "${workspaceFolder}/out/**/*.js"
-            ]
+            "console": "integratedTerminal"
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch ZoneServer2016",
-            "env":{
-                "VSCODE_DEBUG":"true",
-                "CLIENT_SIXTEEN":"true"
-            },
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/out/servers/ZoneServer2016/zoneserver.js",
-            "outFiles": [
-                "${workspaceFolder}/out/**/*.js"
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch ZoneServer2016 with MongoDB",
+            "name": "ZoneServer",
             "env":{
                 "VSCODE_DEBUG":"true",
                 "CLIENT_SIXTEEN":"true",
-                "MONGO_URL":"mongodb://localhost:27017/",
-                "LOGINSERVER_IP":"127.0.0.1"
+                "MONGO_URL":"mongodb://127.0.0.1:27017/",
+                "LOGINSERVER_IP":"127.0.0.1",
+                "DEBUG":"*,-SOEServer,-SOEInputStream,-H1Z1Protocol,-GatewayServer",
+                "DECRYPT_KEY": "cba0d2409ae45ddc64d00c1416c6978223ecf39b121c8015a7822dc53b074b5a",
+                "IP_WEBHOOK":"https://discord.com/api/webhooks/1086485717561118830/P94YAIwxXlMtm9d8uLNXyE9zSHzLwGrV2GAjhy_ANDDP7T_R_Y9AQhovivdKrAdNODzv",
+                "BAN_WEBHOOK":"https://discord.com/api/webhooks/1086485717561118830/P94YAIwxXlMtm9d8uLNXyE9zSHzLwGrV2GAjhy_ANDDP7T_R_Y9AQhovivdKrAdNODzv"
             },
             "skipFiles": [
                 "<node_internals>/**"
@@ -99,7 +42,8 @@
             "program": "${workspaceFolder}/out/servers/ZoneServer2016/zoneserver.js",
             "outFiles": [
                 "${workspaceFolder}/out/**/*.js"
-            ]
+            ],
+            "console": "integratedTerminal"
         }
     ]
 }

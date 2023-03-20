@@ -260,14 +260,34 @@ export const getAppDataFolderPath = (): string => {
   return `${process.env.APPDATA || process.env.HOME}/${folderName}`;
 };
 
+export function generateRandomKey() {
+  const key = crypto.randomBytes(32);
+  const hash = crypto.createHash('sha256');
+  hash.update(key);
+  return hash.digest().toString('hex');
+}
+
+export function encrypt(text: string, key: Buffer) {
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+
+  let encrypted = cipher.update(text);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+
+  return {
+    iv: iv.toString("hex"),
+    encryptedData: encrypted.toString("hex")
+  };
+}
+
 export function decrypt(
   text: { iv: string; encryptedData: string },
-  key: string
+  key: Buffer
 ): string {
   const iv = Buffer.from(text.iv, "hex");
   const encryptedText = Buffer.from(text.encryptedData, "hex");
 
-  const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(key), iv);
+  const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
 
   let decrypted = decipher.update(encryptedText);
   decrypted = Buffer.concat([decrypted, decipher.final()]);

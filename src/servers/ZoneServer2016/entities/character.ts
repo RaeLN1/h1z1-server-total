@@ -135,7 +135,7 @@ export class Character2016 extends BaseFullCharacter {
       new Float32Array([0, 0, 0, 1]),
       server
     );
-    this.npcRenderDistance = 250;
+    this.npcRenderDistance = 500;
     this.healingTicks = 0;
     this.healingMaxTicks = 0;
     (this._resources = {
@@ -349,7 +349,7 @@ export class Character2016 extends BaseFullCharacter {
   }
   addCombatlogEntry(entry: DamageRecord) {
     this.combatlog.push(entry);
-    if (this.combatlog.length > 10) {
+    if (this.combatlog.length > 20) {
       this.combatlog.shift();
     }
   }
@@ -572,7 +572,7 @@ export class Character2016 extends BaseFullCharacter {
       orientationToSource: orientation,
       unknownDword2: 100,
     });
-    server.sendChatText(client, `Received ${damage} damage`);
+    server.sendChatText(client, `Recebeu ${damage} de dano`);
     if (!sourceEntity) return;
 
     const damageRecord = server.generateDamageRecord(

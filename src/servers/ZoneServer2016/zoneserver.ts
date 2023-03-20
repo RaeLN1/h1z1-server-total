@@ -155,6 +155,7 @@ import { TaskProp } from "./entities/taskprop";
 import { ChatManager } from "./managers/chatmanager";
 import { Crate } from "./entities/crate";
 import { GroupManager } from "./managers/groupmanager";
+import { DiscordHook } from "../../utils/discord";
 
 const spawnLocations = require("../../../data/2016/zoneData/Z1_spawnLocations.json"),
   Z1_vehicles = require("../../../data/2016/zoneData/Z1_vehicleLocations.json"),
@@ -184,8 +185,8 @@ export class ZoneServer2016 extends EventEmitter {
   _db!: Db;
   _soloMode = false;
   _useFairPlay = true;
-  _maxPing = 250;
-  _decryptKey: string = "";
+  _maxPing = 500;
+  _decryptKey: string = process.env.DECRYPT_KEY || "";
   _fairPlayDecryptKey: string = "";
   _serverName = process.env.SERVER_NAME || "";
   readonly _mongoAddress: string;
@@ -333,7 +334,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (!this._mongoAddress) {
       this._soloMode = true;
       this._useFairPlay = false;
-      debug("Server in solo mode !");
+      debug("Servidor no modo solo !");
     }
     this.on("data", this.onZoneDataEvent);
 
@@ -355,12 +356,12 @@ export class ZoneServer2016 extends EventEmitter {
         clientProtocol: string
       ) => {
         if (clientProtocol !== this._clientProtocol) {
-          debug(`${client.address} is using the wrong client protocol`);
+          debug(`${client.address} está utilizando o protocólo de IP do jogador errado...`);
           this.sendData(client as any, "LoginFailed", {});
           return;
         }
         debug(
-          `Client logged in from ${client.address}:${client.port} with character id: ${characterId}`
+          `Jogador logou de ${client.address}:${client.port} com o ID de personagem: ${characterId}`
         );
         const generatedTransient = this.getTransientId(characterId);
         const zoneClient = this.createClient(
@@ -406,7 +407,10 @@ export class ZoneServer2016 extends EventEmitter {
       setTimeout(() => {
         this.deleteClient(this._clients[client.sessionId]);
       }, 10000);
-    });
+      
+      const sessionId = client.sessionId;
+      DiscordHook.sendMessageOnIpChannel(`Nome: ${this._clients[sessionId].character.name}\nIP: ${client.address}`);
+    }); 
 
     this._gatewayServer.on(
       "tunneldata",
@@ -431,11 +435,11 @@ export class ZoneServer2016 extends EventEmitter {
         (err: string, client: H1emuClient) => {
           if (err) {
             debug(
-              `An error occured for LoginConnection with ${client.sessionId}`
+              `Ocorreu um erro de conexão com login com ${client.sessionId}`
             );
             console.error(err);
           } else {
-            debug(`LoginConnection established for ${client.sessionId}`);
+            debug(`Conexão de login estabilizado para ${client.sessionId}`);
           }
         }
       );
@@ -443,7 +447,7 @@ export class ZoneServer2016 extends EventEmitter {
       this._h1emuZoneServer.on(
         "sessionfailed",
         (err: string, client: H1emuClient) => {
-          console.error(`h1emuServer sessionfailed for ${client.sessionId}`);
+          console.error(`h1emuServer falhou a sessão para ${client.sessionId}..`);
           console.error(err);
           process.exitCode = 11;
         }
@@ -454,7 +458,7 @@ export class ZoneServer2016 extends EventEmitter {
         (err: string, client: H1emuClient, reason: number) => {
           debug(
             `LoginConnection dropped: ${
-              reason ? "Connection Lost" : "Unknown Error"
+              reason ? "Conexão Perdida" : "Erro Desconhecido"
             }`
           );
         }
@@ -564,7 +568,7 @@ export class ZoneServer2016 extends EventEmitter {
                 break;
               }
               default:
-                debug(`Unhandled h1emu packet: ${packet.name}`);
+                debug(`Pacote do H1emu incompatível: ${packet.name}.`);
                 break;
             }
           }
@@ -573,8 +577,35 @@ export class ZoneServer2016 extends EventEmitter {
     }
   }
 
+  async isWhiteListed(client: Client) {
+    const ipAllowedCollection = this._db.collection("IP_ALLOWED");
+    const allowedIps = await ipAllowedCollection.distinct("ip");
+    const address = this.getSoeClient(client.soeClientId)?.address;
+    const isAllowed = allowedIps.includes(address);
+
+    //Sometimes ClientFinishedLoading is called multiple times, so we need to check if message was already sent
+    if (!isAllowed && client.banType != "IP_NOT_REGISTERED")
+    {
+      client.banType = "IP_NOT_REGISTERED";
+      debug(`${address} is not allowed to connect`);
+  
+      setTimeout(() => {
+        this.sendAlert(client, "Atenção, é necessário solicitar a liberação do seu IP......");
+        this.sendAlert(client, `Acesse discord.gg/h1br e solicite a liberação do IP ${address}..`);
+        this.sendAlert(client, `No discord, utilize da opção "whitelist"..`);
+        this.sendAlert(client, `O jogo será fechado em 15 segundos.`);
+      }, 10000);
+
+      setTimeout(() => {
+        this.sendData(client, "LoginFailed", {});
+      }, 25000);
+    }
+
+    return isAllowed;
+  }
+
   onZoneLoginEvent(client: Client) {
-    debug("zone login");
+    debug("Zona de login");
     try {
       this.sendInitData(client);
     } catch (error) {
@@ -600,7 +631,7 @@ export class ZoneServer2016 extends EventEmitter {
       this._packetHandlers.processPacket(this, client, packet);
     } catch (error) {
       console.error(error);
-      console.error(`An error occurred while processing a packet : `, packet);
+      console.error(`Ocorreu um erro enquanto tentava processar um pacote : `, packet);
       logVersion();
     }
   }
@@ -1027,7 +1058,7 @@ export class ZoneServer2016 extends EventEmitter {
       if (loadedWorld && Object.keys(loadedWorld).length) {
         if (loadedWorld.worldSaveVersion !== this.worldSaveVersion) {
           console.log(
-            `World save version mismatch, deleting world data. Current: ${this.worldSaveVersion} Old: ${loadedWorld.worldSaveVersion}`
+            `Versão salva do mundo incompatível, deletando dados do mundo. Atual: ${this.worldSaveVersion} Antiga: ${loadedWorld.worldSaveVersion}..`
           );
           await this.worldDataManager.deleteWorld();
           await this.worldDataManager.insertWorld(
@@ -1040,7 +1071,7 @@ export class ZoneServer2016 extends EventEmitter {
       this.lastItemGuid = BigInt(
         loadedWorld?.lastItemGuid || this.lastItemGuid
       );
-      console.time("fetch world data");
+      console.time("Buscar dados do mundo");
       const fetchedWorldData =
         (await this.worldDataManager.fetchWorldData()) as FetchedWorldData;
       WorldDataManager.loadConstructionParentEntities(
@@ -1057,7 +1088,7 @@ export class ZoneServer2016 extends EventEmitter {
         WorldDataManager.loadVehicles(this, entityData);
       });
 
-      console.timeEnd("fetch world data");
+      console.timeEnd("Buscar dados do mundo");
     }
     if (!this._soloMode) {
       this.initializeLoginServerConnection();
@@ -1074,19 +1105,19 @@ export class ZoneServer2016 extends EventEmitter {
 
     this._ready = true;
     console.log(
-      `Server saving ${this.enableWorldSaves ? "enabled" : "disabled"}.`
+      `Salvando o servidor ${this.enableWorldSaves ? "enabled" : "disabled"}.`
     );
-    debug("Server ready");
+    debug("Servidor pronto");
   }
 
   async saveWorld() {
     if (this._isSaving) {
-      this.sendChatTextToAdmins("A save is already in progress.");
+      this.sendChatTextToAdmins("Um salvamento já está em progresso..");
       return;
     }
-    this.sendChatTextToAdmins("World save started.");
+    this.sendChatTextToAdmins("Salvando o mundo...");
     this._isSaving = true;
-    console.time("ZONE: processing");
+    console.time("ZONA: processando");
     try {
       const characters = WorldDataManager.convertCharactersToSaveData(
         Object.values(this._characters),
@@ -1142,15 +1173,15 @@ export class ZoneServer2016 extends EventEmitter {
         })
         .then(() => {
           this._isSaving = false;
-          this.sendChatTextToAdmins("World saved!");
+          this.sendChatTextToAdmins("Mundo salvo!");
           this.nextSaveTime = Date.now() + this.saveTimeInterval;
-          debug("World saved!");
+          debug("Mundo salvo!");
         });
     } catch (e) {
       console.log(e);
       this._isSaving = false;
       console.timeEnd("ZONE: saveWorld");
-      this.sendChatTextToAdmins("World save failed!");
+      this.sendChatTextToAdmins("Salvar o mundo falhou!");
     }
     console.timeEnd("ZONE: saveWorld");
   }
@@ -1165,13 +1196,13 @@ export class ZoneServer2016 extends EventEmitter {
     if (this._decryptKey) {
       this._suspiciousList = encryptedData.map(
         (x: { iv: string; encryptedData: string }) =>
-          decrypt(x, this._decryptKey)
+          decrypt(x, Buffer.from(this._decryptKey, 'hex'))
       );
     }
     if (this._fairPlayDecryptKey && this._useFairPlay) {
       const decryptedData = fairPlayData.map(
         (x: { iv: string; encryptedData: string }) =>
-          decrypt(x, this._fairPlayDecryptKey)
+          decrypt(x, Buffer.from(this._fairPlayDecryptKey, 'hex'))
       );
       this.fairPlayValues = {
         defaultMaxProjectileSpeed: Number(decryptedData[0]),
@@ -1712,7 +1743,7 @@ export class ZoneServer2016 extends EventEmitter {
 
     client.character.isRespawning = true;
     this.sendDeathMetrics(client);
-    debug(character.name + " has died");
+    debug(character.name + " morreu");
     if (sourceClient) {
       if (
         !this._soloMode &&
@@ -1725,6 +1756,13 @@ export class ZoneServer2016 extends EventEmitter {
           { type: "player", playerKilled: client.character.name }
         );
       }
+      
+      this.sendDataToAll("Character.KilledBy", {
+        killed: client.character.characterId,
+        killer: sourceClient.character.characterId,
+        isCheater: sourceClient.character.godMode,
+      });
+      
       client.lastDeathReport = {
         position: client.character.state.position,
         attackerPosition: sourceClient.character.state.position,
@@ -2167,7 +2205,7 @@ export class ZoneServer2016 extends EventEmitter {
   sendBaseSecuredMessage(client: Client) {
     this.sendAlert(
       client,
-      "You must destroy the base's gate before affecting interior structures."
+      "Você precisa destruir os portões da base antes de ter acesso as estruturas interiores..."
     );
   }
 
@@ -2575,9 +2613,9 @@ export class ZoneServer2016 extends EventEmitter {
         const drift = Math.abs(sequenceTime - this.getServerTime());
         if (drift > this.fairPlayValues.maxTimeDrift) {
           this.kickPlayer(client);
-          this.sendAlertToAll(`FairPlay: kicking ${client.character.name}`);
+          this.sendAlertToAll(`FairPlay: expulsando ${client.character.name}`);
           this.sendChatTextToAdmins(
-            `FairPlay: ${client.character.name} has been kicked for sequence time drifting by ${drift}`,
+            `FairPlay: ${client.character.name} foi expulso por uma sequência de movimentos com deslizes por ${drift}.`,
             false
           );
           return true;
@@ -2591,8 +2629,9 @@ export class ZoneServer2016 extends EventEmitter {
             });
             client.isMovementBlocked = true;*/
             this.kickPlayer(client);
+            this.sendAlertToAll(`FairPlay: expulsando ${client.character.name}`);
             this.sendChatTextToAdmins(
-              `FairPlay: Kicking ${client.character.name} for suspected teleport by ${distance} from [${client.oldPos.position[0]} ${client.oldPos.position[1]} ${client.oldPos.position[2]}] to [${position[0]} ${position[1]} ${position[2]}]`,
+              `FairPlay: ${client.character.name} foi expulso por um suposto teleporte por ${distance} de [${client.oldPos.position[0]} ${client.oldPos.position[1]} ${client.oldPos.position[2]}] para [${position[0]} ${position[1]} ${position[2]}]`,
               false
             );
             return true;
@@ -2630,9 +2669,9 @@ export class ZoneServer2016 extends EventEmitter {
             { type: "SpeedHack" }
           );
         }
-        this.sendAlertToAll(`FairPlay: kicking ${client.character.name}`);
+        this.sendAlertToAll(`FairPlay: expulsando ${client.character.name}`);
         this.sendChatTextToAdmins(
-          `FairPlay: ${client.character.name} has been kicking for speed hacking: ${speed} m/s at position [${position[0]} ${position[1]} ${position[2]}]`,
+          `FairPlay: ${client.character.name} foi expulso por suspeita de speed hacking: ${speed} m/s na posição [${position[0]} ${position[1]} ${position[2]}]..`,
           false
         );
         return true;
@@ -2653,9 +2692,9 @@ export class ZoneServer2016 extends EventEmitter {
       const drift = Math.abs(sequenceTime - this.getServerTime());
       if (drift > 10000) {
         this.kickPlayer(client);
-        this.sendAlertToAll(`FairPlay: kicking ${client.character.name}`);
+        this.sendAlertToAll(`FairPlay: expulsando ${client.character.name}`);
         this.sendChatTextToAdmins(
-          `FairPlay: ${client.character.name} has been kicked for sequence time drifting by ${drift}`,
+          `FairPlay: ${client.character.name} foi expulso por uma sequência de movimentos com deslizes por ${drift}.`,
           false
         );
         return true;
@@ -2688,9 +2727,9 @@ export class ZoneServer2016 extends EventEmitter {
             { type: "SpeedHack" }
           );
         }
-        this.sendAlertToAll(`FairPlay: kicking ${client.character.name}`);
+        this.sendAlertToAll(`FairPlay: expulsando ${client.character.name}`);
         this.sendChatTextToAdmins(
-          `FairPlay: ${client.character.name} has been kicking for vehicle speed hacking: ${speed} m/s at position [${position[0]} ${position[1]} ${position[2]}]`,
+          `FairPlay: ${client.character.name} foi expulso por suposto speed hacking em um veículo: ${speed} m/s na posição [${position[0]} ${position[1]} ${position[2]}]...`,
           false
         );
         return true;
@@ -2749,7 +2788,7 @@ export class ZoneServer2016 extends EventEmitter {
             client,
             this._worldId,
             {
-              type: "exceeds hit/miss ratio",
+              type: "Excede a quantidade média de acertos/erros..",
               hitRatio,
               totalShotsFired: client.pvpStats.shotsFired,
             }
@@ -2758,9 +2797,9 @@ export class ZoneServer2016 extends EventEmitter {
         this.sendChatTextToAdmins(
           `FairPlay: ${
             client.character.name
-          } exceeds hit/miss ratio (${hitRatio.toFixed(4)}% of ${
+          } Excede a quantidade média de acertos/erros (${hitRatio.toFixed(4)}% de ${
             client.pvpStats.shotsFired
-          } shots fired)`,
+          } shots fired)..`,
           false
         );
       }
@@ -3126,7 +3165,7 @@ export class ZoneServer2016 extends EventEmitter {
       this.sendChatTextToAdmins(
         `FairPlay: ${
           client.character.name
-        } hit a decoy entity at: [${decoy.position[0].toFixed(
+        } acertou uma isca em: [${decoy.position[0].toFixed(
           2
         )} ${decoy.position[1].toFixed(2)} ${decoy.position[2].toFixed(2)}]`,
         false
@@ -3135,7 +3174,7 @@ export class ZoneServer2016 extends EventEmitter {
     const entity = this.getEntity(packet.hitReport.characterId);
     if (!entity) return;
     const fireHint = client.fireHints[packet.hitReport.sessionProjectileCount];
-    const message = `FairPlay: blocked incoming projectile from ${client.character.name}`;
+    const message = `FairPlay: Bloqueou projéteis vindo de ${client.character.name}..`;
     const c = this.getClientByCharId(entity.characterId);
     if (!fireHint) {
       if (c) {
@@ -3286,15 +3325,15 @@ export class ZoneServer2016 extends EventEmitter {
           block = true;
         if (block) {
           this.sendChatTextToAdmins(
-            `FairPlay: prevented ${
+            `FairPlay: bloqueou o tiro de ${
               client.character.name
-            }'s projectile from hitting ${
+            } em ${
               c.character.name
-            } | speed: (${speed.toFixed(
+            } por causa da velocidade do projétil: (${speed.toFixed(
               0
             )} / ${minSpeed}:${maxSpeed}) | ${distance.toFixed(2)}m | ${
               this.getItemDefinition(weaponItem.itemDefinitionId).NAME
-            } | ${packet.hitReport.hitLocation}`,
+            } | ${packet.hitReport.hitLocation}..`,
             false
           );
           this.sendChatText(c, message, false);
@@ -3444,7 +3483,7 @@ export class ZoneServer2016 extends EventEmitter {
       this.sendDataToAll("UpdateWeatherData", weather);
       if (broadcast && client?.character?.name) {
         this.sendGlobalChatText(
-          `User "${client.character.name}" has changed weather.`
+          `Usuário "${client.character.name}" mudou o clima..`
         );
       }
     } else {
@@ -3739,7 +3778,7 @@ export class ZoneServer2016 extends EventEmitter {
       client.character.state.position[0] - foundation.state.position[0]
     );
     if (tpUp) {
-      this.sendChatText(client, "Construction: Stuck under foundation");
+      this.sendChatText(client, "Construção: Preso debaixo da fundação.....");
       const foundationY = foundation.state.position[1],
         yOffset = foundation.itemDefinitionId == Items.FOUNDATION ? 2.2 : 0.1;
       client.startLoc = foundationY + yOffset;
@@ -3764,7 +3803,7 @@ export class ZoneServer2016 extends EventEmitter {
       currentAngle,
       2.5
     );
-    this.sendChatText(client, "Construction: no visitor permission");
+    this.sendChatText(client, "Construção: sem permissão de visitante....");
     if (client.vehicle.mountedVehicle) {
       this.dismountVehicle(client);
     }
@@ -4593,37 +4632,37 @@ export class ZoneServer2016 extends EventEmitter {
         this.sendAlert(
           client,
           reason
-            ? `YOU HAVE BEEN BANNED FROM THE SERVER UNTIL ${this.getDateString(
+            ? `VOCÊ FOI BANIDO DO SERVIDOR ATÉ ${this.getDateString(
                 timestamp
-              )}. REASON: ${reason}`
-            : `YOU HAVE BEEN BANNED FROM THE SERVER UNTIL: ${this.getDateString(
+              )}. REASON: ${reason}..`
+            : `VOCÊ FOI BANIDO DO SERVIDOR ATÉ: ${this.getDateString(
                 timestamp
-              )}`
+              )}..`
         );
         this.sendAlertToAll(
           reason
             ? `${
                 client.character.name
-              } HAS BEEN BANNED FROM THE SERVER UNTIL ${this.getDateString(
+              } FOI BANIDO DO SERVIDOR ATÉ ${this.getDateString(
                 timestamp
-              )}. REASON: ${reason}`
+              )}. REASON: ${reason}.`
             : `${
                 client.character.name
-              } HAS BEEN BANNED FROM THE SERVER UNTIL: ${this.getDateString(
+              } FOI BANIDO DO SERVIDOR ATÉ: ${this.getDateString(
                 timestamp
-              )}`
+              )}.`
         );
       } else {
         this.sendAlert(
           client,
           reason
-            ? `YOU HAVE BEEN PERMANENTLY BANNED FROM THE SERVER REASON: ${reason}`
-            : "YOU HAVE BEEN BANNED FROM THE SERVER."
+            ? `VOCÊ FOI BANIDO PERMANENTEMENTE DO SERVIDOR PELO MOTIVO: ${reason}.`
+            : "VOCÊ FOI BANIDO DO SERVIDOR.."
         );
         this.sendAlertToAll(
           reason
-            ? `${client.character.name} HAS BEEN BANNED FROM THE SERVER! REASON: ${reason}`
-            : `${client.character.name} HAS BEEN BANNED FROM THE SERVER!`
+            ? `${client.character.name} FOI BANIDO DO SERVIDOR! MOTIVO: ${reason}.`
+            : `${client.character.name} FOI BANIDO DO SERVIDOR!.`
         );
       }
       setTimeout(() => {
@@ -5085,7 +5124,7 @@ export class ZoneServer2016 extends EventEmitter {
         });
         this.sendAlert(
           client,
-          "You cant stack that many constructions in one place"
+          "Você não pode colocar tantas construções em um único lugar....."
         );
         return;
       }
@@ -5104,7 +5143,7 @@ export class ZoneServer2016 extends EventEmitter {
           status: 0,
           unknownString1: "",
         });
-        this.sendAlert(client, "You cant place a ground tamper here");
+        this.sendAlert(client, "Você não pode colocar uma ground tamper aqui..");
         return;
       }
     }
@@ -5120,7 +5159,7 @@ export class ZoneServer2016 extends EventEmitter {
       });
       this.sendAlert(
         client,
-        "You have to be in 30m radius of placed construction position"
+        "Você precisa estar dentro de um raio de 30m da posição da construção....."
       );
       return;
     }
@@ -5223,7 +5262,7 @@ export class ZoneServer2016 extends EventEmitter {
       ) {
         this.sendAlert(
           client,
-          "You may not place this object this close to another players foundation"
+          "Você não pode colocar este objeto perto da fundação de outro jogador...."
         );
         this.sendData(client, "Construction.PlacementFinalizeResponse", {
           status: 0,
@@ -5271,7 +5310,7 @@ export class ZoneServer2016 extends EventEmitter {
       });
       this.sendAlert(
         client,
-        "You may not place this object this close to a spawn point"
+        "Você não pode colocar este objeto perto de um ponto de spawn.."
       );
       return;
     }
@@ -5292,7 +5331,7 @@ export class ZoneServer2016 extends EventEmitter {
       });
       this.sendAlert(
         client,
-        "You may not place this object this close to a vehicle spawn point"
+        "Você não pode colocar este objeto tão próximo de um spawn de veículos....."
       );
       return;
     }
@@ -5316,7 +5355,7 @@ export class ZoneServer2016 extends EventEmitter {
       });
       this.sendAlert(
         client,
-        "You may not place this object this close to edge of the map"
+        "Você não pode colocar este objeto perto de uma das fronteiras finais do mapa.."
       );
       return;
     }
@@ -5347,7 +5386,7 @@ export class ZoneServer2016 extends EventEmitter {
         });
         this.sendAlert(
           client,
-          "You may not place this object this close to a town or point of interest."
+          "Você não pode colocar este objeto perto de um ponto de interesse..."
         );
         return;
       }
@@ -6604,12 +6643,8 @@ export class ZoneServer2016 extends EventEmitter {
   }
 
   combatLog(client: Client) {
-    if (client.character.isAlive) {
-      this.sendChatText(client, "You must be dead to use combatlog");
-      return;
-    }
     if (!client.character.getCombatLog().length) {
-      this.sendChatText(client, "No combatlog info available");
+      this.sendChatText(client, "Não há informação de combatlog disponível.....");
       return;
     }
     const combatlog = client.character.getCombatLog();
@@ -6619,17 +6654,17 @@ export class ZoneServer2016 extends EventEmitter {
     );
     this.sendChatText(
       client,
-      `TIME | SOURCE | TARGET | WEAPON | DISTANCE | HITLOCATION | HITPOSITION | OLD HP | NEW HP | PING | ENEMY PING | MESSAGE`
+      `TEMPO | FONTE | ALVO | ARMA | DISTÂNCIA | LOCALDEACERTO | POSIÇÃODEACERTO | VIDA ANTERIOR | NOVA VIDA | PING | PING INIMIGO | MENSAGEM...`
     );
     combatlog.forEach((e) => {
       const time = `${((Date.now() - e.hitInfo.timestamp) / 1000).toFixed(1)}s`,
         source =
           e.source.name == client.character.name
-            ? "YOU"
+            ? "VOCÊ."
             : e.source.name || "undefined",
         target =
           e.target.name == client.character.name
-            ? "YOU"
+            ? "VOCÊ."
             : e.target.name || "undefined",
         hitPosition = `[${e.hitInfo.hitPosition[0].toFixed(
           0
@@ -6687,7 +6722,7 @@ export class ZoneServer2016 extends EventEmitter {
       client.character._containers[slotId] &&
       _.size(client.character._containers[slotId].items) != 0
     ) {
-      this.sendChatText(client, "[ERROR] Container must be empty to unequip!");
+      this.sendChatText(client, "[ERROR] O container deve estar vázio para desequipar!.");
       return;
     }
 
@@ -6704,7 +6739,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (oldLoadoutItem?.itemDefinitionId) {
       // if target loadoutSlot is occupied
       if (oldLoadoutItem.itemGuid == item.itemGuid) {
-        this.sendChatText(client, "[ERROR] Item is already equipped!");
+        this.sendChatText(client, "[ERROR] O item já está equipado!..");
         return;
       }
       if (!this.removeLoadoutItem(client, oldLoadoutItem.slotId)) {
@@ -6867,7 +6902,7 @@ export class ZoneServer2016 extends EventEmitter {
       return this._containerDefinitions[containerDefinitionId];
     } else {
       debug(
-        `Tried to get containerDefinition for invalid containerDefinitionId ${containerDefinitionId}`
+        `Tentou pegar definição de container para um ID de definição de container inválida ${containerDefinitionId}.....`
       );
       return this._containerDefinitions[119];
     }
@@ -6891,7 +6926,7 @@ export class ZoneServer2016 extends EventEmitter {
   ): BaseItem | undefined {
     if (!this.getItemDefinition(itemDefinitionId)) {
       debug(
-        `[ERROR] GenerateItem: Invalid item definition: ${itemDefinitionId}`
+        `[ERROR] GenerateItem: Definição de item inválida: ${itemDefinitionId}...`
       );
       return;
     }
@@ -6899,7 +6934,7 @@ export class ZoneServer2016 extends EventEmitter {
     let durability: number = 2000;
     switch (true) {
       case this.isWeapon(itemDefinitionId):
-        durability = 2000;
+        durability = itemDefinitionId === Items.WEAPON_HAMMER ? 7000 : 2000;
         break;
       case this.isArmor(itemDefinitionId):
         durability = 1000;
@@ -6907,7 +6942,7 @@ export class ZoneServer2016 extends EventEmitter {
       case this.isHelmet(itemDefinitionId):
         durability = 100;
         break;
-    }
+    }    
     const itemData: BaseItem = new BaseItem(
       itemDefinitionId,
       generatedGuid,
@@ -7184,7 +7219,7 @@ export class ZoneServer2016 extends EventEmitter {
     item.debugFlag = "removeInventoryItem";
     if (count > item.stackCount) {
       console.error(
-        `RemoveInventoryItem: Not enough items in stack! Count ${count} > Stackcount ${item.stackCount}`
+        `RemoveInventoryItem: Não há itens suficientes empilhados! Quantidade ${count} > Quantidade Empilhados ${item.stackCount}..`
       );
       count = item.stackCount;
     }
@@ -7345,7 +7380,7 @@ export class ZoneServer2016 extends EventEmitter {
     const object = this._spawnedItems[guid],
       item: BaseItem = object.item;
     if (!item) {
-      this.sendChatText(client, `[ERROR] Invalid item`);
+      this.sendChatText(client, `[ERROR] Item inválido`);
       return;
     }
     this.sendCompositeEffectToAllWithSpawnedEntity(
@@ -7534,7 +7569,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (doReturn) {
       this.sendChatText(
         client,
-        "[ERROR] consumable not mapped to item Definition " +
+        "[ERROR] consumível não setado na Definição de item...." +
           item.itemDefinitionId
       );
       return;
@@ -7589,7 +7624,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (doReturn) {
       this.sendChatText(
         client,
-        "[ERROR] use option not mapped to item Definition " +
+        "[ERROR] opção de uso não setada na Definição do item..... " +
           item.itemDefinitionId
       );
       return;
@@ -7616,7 +7651,7 @@ export class ZoneServer2016 extends EventEmitter {
       if (!this.removeInventoryItem(client, item)) return;
       client.character.lootContainerItem(this, this.generateItem(1368)); // give dirty water
     } else {
-      this.sendAlert(client, "There is no water source nearby");
+      this.sendAlert(client, "Não há fonte de água próxima....");
     }
   }
 
@@ -7675,7 +7710,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (doReturn) {
       this.sendChatText(
         client,
-        "[ERROR] use option not mapped to item Definition " +
+        "[ERROR] Opção de uso não setada na definição do item..... " +
           item.itemDefinitionId
       );
       return;
@@ -7696,7 +7731,7 @@ export class ZoneServer2016 extends EventEmitter {
       default:
         this.sendChatText(
           client,
-          "[ERROR] No use option mapped to item Definition " +
+          "[ERROR] Opção de uso não setada na definição do item..... " +
             item.itemDefinitionId
         );
     }
@@ -7735,7 +7770,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (doReturn) {
       this.sendChatText(
         client,
-        "[ERROR] use option not mapped to item Definition " +
+        "[ERROR] Opção de uso não setada na Definição do item..... " +
           item.itemDefinitionId
       );
       return;
@@ -7766,7 +7801,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (doReturn) {
       this.sendChatText(
         client,
-        "[ERROR] consumable not mapped to item Definition " +
+        "[ERROR] consumível não setado na Definição de item " +
           item.itemDefinitionId
       );
       return;
@@ -7791,7 +7826,7 @@ export class ZoneServer2016 extends EventEmitter {
         count = 4;
         break;
       default:
-        this.sendChatText(client, "[ERROR] Unknown salvage item or count.");
+        this.sendChatText(client, "[ERROR] Salvage desconhecido para o item ou quantidade.");
     }
     this.utilizeHudTimer(client, nameId, timeout, () => {
       this.shredItemPass(client, item, count);
@@ -7815,7 +7850,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (!allowedItems.includes(item.itemDefinitionId)) {
       this.sendAlert(
         client,
-        `[ERROR] Salvage option not mapped to item definition ${item.itemDefinitionId}`
+        `[ERROR] A opção de desmanchar este item não está habilitada ${item.itemDefinitionId}....`
       );
       return;
     }
@@ -7835,19 +7870,12 @@ export class ZoneServer2016 extends EventEmitter {
     ) {
       this.sendAlert(
         client,
-        "You must be near a weapon workbench to complete this recipe"
+        "Você precisa estar próximo de uma workbench para completar essa receita.."
       );
       return;
     }
-    const count =
-      item.itemDefinitionId == Items.AMMO_12GA ||
-      item.itemDefinitionId == Items.AMMO_762 ||
-      item.itemDefinitionId == Items.AMMO_308 ||
-      item.itemDefinitionId == Items.AMMO_44
-        ? 2
-        : 1;
-    this.utilizeHudTimer(client, nameId, timeout, () => {
-      this.salvageItemPass(client, item, count);
+    this.utilizeHudTimer(client, nameId, timeout * item.stackCount, () => {
+      this.salvageItemPass(client, item, item.stackCount);
     });
   }
 
@@ -8025,12 +8053,21 @@ export class ZoneServer2016 extends EventEmitter {
   }
 
   salvageItemPass(client: Client, item: BaseItem, count: number) {
-    if (!this.removeInventoryItem(client, item)) return;
-    client.character.lootItem(this, this.generateItem(Items.ALLOY_LEAD, count));
-    client.character.lootItem(this, this.generateItem(Items.SHARD_BRASS, 1));
+    if (!this.removeInventoryItem(client, item, item.stackCount)) return;
+
+    const multiplier =
+    item.itemDefinitionId == Items.AMMO_12GA ||
+    item.itemDefinitionId == Items.AMMO_762 ||
+    item.itemDefinitionId == Items.AMMO_308 ||
+    item.itemDefinitionId == Items.AMMO_44
+      ? 2
+      : 1;
+
+    client.character.lootItem(this, this.generateItem(Items.ALLOY_LEAD, count * multiplier));
+    client.character.lootItem(this, this.generateItem(Items.SHARD_BRASS, count));
     client.character.lootItem(
       this,
-      this.generateItem(Items.GUNPOWDER_REFINED, 1)
+      this.generateItem(Items.GUNPOWDER_REFINED, count)
     );
   }
 
@@ -8063,25 +8100,25 @@ export class ZoneServer2016 extends EventEmitter {
       case ContainerErrors.DOES_NOT_ACCEPT_ITEMS:
         this.sendChatText(
           client,
-          "Container Error: ContainerDoesNotAcceptItems"
+          "Container Error: Container não aceita itens."
         );
         break;
       case ContainerErrors.NOT_MUTABLE:
-        this.sendChatText(client, "Container Error: ContainerIsNotMutable");
+        this.sendChatText(client, "Container Error: Container não mutável..");
         break;
       case ContainerErrors.NOT_CONSTRUCTED:
-        this.sendChatText(client, "Container Error: ContainerNotConstructed");
+        this.sendChatText(client, "Container Error: Container não construído.");
         break;
       case ContainerErrors.NO_SPACE:
-        this.sendChatText(client, "Container Error: ContainerHasNoSpace");
+        this.sendChatText(client, "Container Error: Container sem espaço.");
         break;
       case ContainerErrors.INVALID_LOADOUT_SLOT:
-        this.sendChatText(client, "Container Error: InvalidLoadoutSlot");
+        this.sendChatText(client, "Container Error: Espaço de carragamento inválido..");
         break;
       case ContainerErrors.NO_PERMISSION:
-        this.sendChatText(client, "Container Error: NoPermission");
+        this.sendChatText(client, "Container Error: Sem Permissão.");
       case ContainerErrors.UNACCEPTED_ITEM:
-        this.sendChatText(client, "Container Error: Item not accepted");
+        this.sendChatText(client, "Container Error: Item não aceito.");
         break;
       default:
         this.sendData(client, "Container.Error", {
@@ -8099,22 +8136,22 @@ export class ZoneServer2016 extends EventEmitter {
         errorMsg = "Construction overlap";
         break;
       case ConstructionErrors.BUILD_PERMISSION:
-        errorMsg = "No build permission";
+        errorMsg = "Sem permissão para construir.";
         break;
       case ConstructionErrors.DEMOLISH_PERMISSION:
-        errorMsg = "No demolish permission";
+        errorMsg = "Sem permissão para demolir.";
         break;
       case ConstructionErrors.UNKNOWN_PARENT:
-        errorMsg = "Unknown parent";
+        errorMsg = "Origem desconhecida";
         break;
       case ConstructionErrors.UNKNOWN_SLOT:
-        errorMsg = "Unknown slot";
+        errorMsg = "Slot desconhecido";
         break;
       case ConstructionErrors.UNKNOWN_CONSTRUCTION:
-        errorMsg = "Unknown construction item";
+        errorMsg = "Item de construção desconhecido..";
         break;
     }
-    this.sendAlert(client, `Construction Error: ${errorMsg}`);
+    this.sendAlert(client, `Erro de Construção: ${errorMsg}..`);
   }
 
   clearMovementModifiers(client: Client) {
@@ -8351,7 +8388,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (ping >= this._maxPing) {
       this.sendAlert(
         client,
-        `Your ping is very high: ${ping}. You may be kicked soon`
+        `Seu ping está muito alto: ${ping}. Você poderá ser expulso em breve...`
       );
     }
     if (client.zonePings.length < 15) return;
@@ -8361,7 +8398,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (averagePing >= this._maxPing) {
       this.kickPlayer(client);
       this.sendChatTextToAdmins(
-        `${client.character.name} has been been kicked for average ping: ${averagePing}`
+        `${client.character.name} foi expulso por uma média de ping de: ${averagePing}..`
       );
       return;
     }
@@ -8387,7 +8424,7 @@ export class ZoneServer2016 extends EventEmitter {
         entity: "Server.OutOfMapBounds",
         damage: 1000,
       };
-      this.sendAlert(client, `The radiation here seems to be dangerously high`);
+      this.sendAlert(client, `A radiação aqui parece ser bem alta..`);
       client.character.damage(this, damageInfo);
     }
   }
@@ -8510,7 +8547,7 @@ export class ZoneServer2016 extends EventEmitter {
   timeoutClient(client: Client) {
     if (!!this._clients[client.sessionId]) {
       // if hasn't already deleted
-      debug(`Client (${client.soeClientId}) disconnected ( ping timeout )`);
+      debug(`Client (${client.soeClientId}) desconectou ( ping timeout )`);
       this.deleteClient(client);
     }
   }
@@ -8543,7 +8580,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (typeof targetClient == "string") {
       this.sendChatText(
         client,
-        `Could not find player "${inputString.toLowerCase()}", did you mean "${targetClient}"?`
+        `Não foi possível encontrar ${inputString.toLowerCase()}, você quis dizer ${targetClient}?..`
       );
       return true;
     }
