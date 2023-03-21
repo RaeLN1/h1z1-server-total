@@ -1436,14 +1436,7 @@ export class ZoneServer2016 extends EventEmitter {
     // disabled since it breaks weapon inspect
     // re-enabled for just external container workaround custom definitions
     this.sendRawData(client, this.itemDefinitionsCache);
-    if (!this.weaponDefinitionsCache) {
-      this.packWeaponDefinitions();
-    }
-    if (client.forceFpScope !== null) {
-      this.sendRawData(client, client.forceFpScope ? this.weaponDefinitionsCacheFP : this.weaponDefinitionsCacheTP);
-    } else {
-      this.sendRawData(client, this.weaponDefinitionsCache);
-    }
+    this.sendWeaponDefinitions(client);
     // packet is just broken, idk why
     /*
     this.sendData(client, "ClientBeginZoning", {
@@ -1500,6 +1493,17 @@ export class ZoneServer2016 extends EventEmitter {
       }
     }
     return grid.reverse();
+  }
+
+  sendWeaponDefinitions(client: Client) {
+    if (!this.weaponDefinitionsCache) {
+      this.packWeaponDefinitions();
+    }
+    if (client.forceFpScope !== null) {
+      this.sendRawData(client, client.forceFpScope ? this.weaponDefinitionsCacheFP : this.weaponDefinitionsCacheTP);
+    } else {
+      this.sendRawData(client, this.weaponDefinitionsCache);
+    }
   }
 
   private divideMapIntoGrid(

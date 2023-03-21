@@ -54,7 +54,8 @@ export const commands: Array<Command> = [
         $set: { forceFpScope: client.forceFpScope }
       });
 
-      server.sendChatText(client, `Modo SNIPER PRIMEIRA PESSOA ativado com sucesso, favor relogar para aplicar a alteração..`);
+      server.sendChatText(client, `Modo SNIPER PRIMEIRA PESSOA ativado com sucesso`);
+      server.sendWeaponDefinitions(client);
     },
   },
   {
@@ -66,7 +67,8 @@ export const commands: Array<Command> = [
         $set: { forceFpScope: client.forceFpScope }
       });
       
-      server.sendChatText(client, `Modo SNIPER TERCEIRA PESSOA ativado com sucesso, favor relogar para aplicar a alteração..`);
+      server.sendChatText(client, `Modo SNIPER TERCEIRA PESSOA ativado com sucesso`);
+      server.sendWeaponDefinitions(client);
     },
   },
   {

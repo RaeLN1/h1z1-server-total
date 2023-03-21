@@ -50,6 +50,7 @@
     * Increased render distance
     * Increased combatlog length
     * Translations
+    * Shotgun headshot damage fix
 * plant.ts
     * Translations
 * taskprop.ts
