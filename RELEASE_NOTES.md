@@ -59,3 +59,5 @@
     * Increased render distance
 * lootableprops.ts
     * Reduced search times
+* fairPlayData.json
+    * changed fairplay values
