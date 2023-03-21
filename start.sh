@@ -18,8 +18,8 @@ export CLIENT_SIXTEEN="true"
 export MONGO_URL="mongodb://localhost:27017/"
 export DECRYPT_KEY="Z11B7YKG2NHZQXWMBL06RAA35RW5YQ54"
 export DECRYPT_KEY_FAIR_PLAY="9F7BSIC890KUFW965790FF21Q23FVF7S"
-export IP_WEBHOOK="https://discord.com/api/webhooks/1086485717561118830/P94YAIwxXlMtm9d8uLNXyE9zSHzLwGrV2GAjhy_ANDDP7T_R_Y9AQhovivdKrAdNODzv"
-export BAN_WEBHOOK="https://discord.com/api/webhooks/1086485717561118830/P94YAIwxXlMtm9d8uLNXyE9zSHzLwGrV2GAjhy_ANDDP7T_R_Y9AQhovivdKrAdNODzv"
+export IP_WEBHOOK="https://discordapp.com/api/webhooks/1082444885803671562/Dq_ABXaTdMs0EVdxaofFVWniET9GfUh4PV6adeHaoDIFKX4n7Mri9GEz9voP9SqIF02U"
+export BAN_WEBHOOK="https://discordapp.com/api/webhooks/1081720847930241025/FiLd88z8IyM-QSNGWGG6p4F8MAXq0J52HfCualxiSqcY8FxwIPW6LElEsiAadfgcudjS"
 pm2 start mongo-gui
 pm2 start docker/2016/zoneServer.js --watch
 pm2 startup
