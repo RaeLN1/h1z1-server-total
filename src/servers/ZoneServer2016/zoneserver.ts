@@ -584,12 +584,16 @@ export class ZoneServer2016 extends EventEmitter {
     const allowedIps = await ipAllowedCollection.distinct("ip");
     const address = this.getSoeClient(client.soeClientId)?.address;
     const isAllowed = allowedIps.includes(address);
-
-    //Sometimes ClientFinishedLoading is called multiple times, so we need to check if message was already sent
-    if (!isAllowed && client.banType != "IP_NOT_REGISTERED")
-    {
-      client.banType = "IP_NOT_REGISTERED";
-      debug(`${address} is not allowed to connect`);
+  
+    const nameAllowedCollection = this._db.collection("NAME_ALLOWED");
+    const allowedNames = await nameAllowedCollection.distinct("name");
+    const name = client.character?.name;
+    const isNameAllowed = allowedNames.includes(name);
+  
+    // Sometimes ClientFinishedLoading is called multiple times, so we need to check if message was already sent
+    if (!isAllowed && !isNameAllowed && client.banType !== "IP_OR_NAME_NOT_REGISTERED") {
+      client.banType = "IP_OR_NAME_NOT_REGISTERED";
+      debug(`${address} or ${name} is not allowed to connect`);
   
       setTimeout(() => {
         this.sendAlert(client, "Atenção, é necessário solicitar a liberação do seu IP......");
@@ -597,13 +601,13 @@ export class ZoneServer2016 extends EventEmitter {
         this.sendAlert(client, `No discord, utilize da opção "whitelist"..`);
         this.sendAlert(client, `O jogo será fechado em 15 segundos.`);
       }, 10000);
-
+  
       setTimeout(() => {
         this.sendData(client, "LoginFailed", {});
       }, 25000);
     }
 
-    return isAllowed;
+    return isAllowed || isNameAllowed;
   }
 
   async onZoneLoginEvent(client: Client) {

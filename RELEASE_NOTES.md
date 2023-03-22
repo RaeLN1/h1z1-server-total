@@ -25,6 +25,7 @@
     * Hammer durability increased
     * Stack ammo dismantle
     * Removed combatlog condition to dead players
+    * Added posibility to whitelist name.
 * zoneclient.ts
     * Third / First person sniper
 * commands.ts
