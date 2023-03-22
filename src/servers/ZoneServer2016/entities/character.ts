@@ -135,7 +135,7 @@ export class Character2016 extends BaseFullCharacter {
       new Float32Array([0, 0, 0, 1]),
       server
     );
-    this.npcRenderDistance = 500;
+    this.npcRenderDistance = 250;
     this.healingTicks = 0;
     this.healingMaxTicks = 0;
     (this._resources = {
@@ -902,7 +902,9 @@ export class Character2016 extends BaseFullCharacter {
       case "HEAD":
       case "GLASSES":
       case "NECK":
-        damageInfo.weapon == Items.WEAPON_SHOTGUN ? (damage *= 2) : (damage *= 4);
+        damageInfo.weapon == Items.WEAPON_SHOTGUN
+          ? (damage *= 2)
+          : (damage *= 4);
         damageInfo.weapon == Items.WEAPON_308 ? (damage *= 2) : damage;
         damage = server.checkHelmet(this.characterId, damage, 1);
         break;

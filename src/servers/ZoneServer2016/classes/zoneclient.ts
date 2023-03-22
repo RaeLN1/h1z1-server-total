@@ -33,6 +33,7 @@ export class ZoneClient2016 {
   isInteracting: boolean = false;
   isAdmin: boolean = false;
   isDebugMode: boolean = false;
+  isDecoy: boolean = false;
   banType: string = "";
   HWID: string = "";
   posAtLastRoutine: Float32Array = new Float32Array();
@@ -97,6 +98,7 @@ export class ZoneClient2016 {
     data: zone2016packets;
   }[] = [];*/
   isMuted = false;
+  maxFlying?: number;
   constructor(
     sessionId: number,
     soeClientId: string,

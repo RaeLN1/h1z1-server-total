@@ -48,7 +48,6 @@
 * utils.ts
     * Encryption and decryption changes
 * character.ts
-    * Increased render distance
     * Increased combatlog length
     * Translations
     * Shotgun headshot damage fix
@@ -56,8 +55,6 @@
     * Translations
 * taskprop.ts
     * Translations
-* vehicle.ts
-    * Increased render distance
 * lootableprops.ts
     * Reduced search times
 * fairPlayData.json
