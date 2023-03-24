@@ -50,12 +50,11 @@
 * character.ts
     * Increased combatlog length
     * Translations
-    * Shotgun headshot damage fix
 * plant.ts
     * Translations
 * taskprop.ts
     * Translations
 * lootableprops.ts
     * Reduced search times
-* fairPlayData.json
-    * changed fairplay values
+* worldobjectmanager.ts
+    * Fixed createContainerLoot chance logic

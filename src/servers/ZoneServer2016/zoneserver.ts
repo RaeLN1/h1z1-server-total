@@ -590,9 +590,8 @@ export class ZoneServer2016 extends EventEmitter {
     const name = client.character?.name;
     const isNameAllowed = allowedNames.includes(name);
   
-    // Sometimes ClientFinishedLoading is called multiple times, so we need to check if message was already sent
-    if (!isAllowed && !isNameAllowed && client.banType !== "IP_OR_NAME_NOT_REGISTERED") {
-      client.banType = "IP_OR_NAME_NOT_REGISTERED";
+    if (client.firstLoading && !isAllowed && !isNameAllowed) {
+      client.firstLoading = false;
       debug(`${address} or ${name} is not allowed to connect`);
   
       setTimeout(() => {
