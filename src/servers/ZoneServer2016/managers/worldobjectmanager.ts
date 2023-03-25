@@ -168,10 +168,10 @@ export class WorldObjectManager {
       this.lastLootRespawnTime = Date.now();
       server.divideLargeCells(700);
     }
-    if (this.lastNpcRespawnTime + this.npcRespawnTimer <= Date.now()) {
-      this.createNpcs(server);
-      this.lastNpcRespawnTime = Date.now();
-    }
+    // if (this.lastNpcRespawnTime + this.npcRespawnTimer <= Date.now()) {
+    //   this.createNpcs(server);
+    //   this.lastNpcRespawnTime = Date.now();
+    // }
     if (this.lastVehicleRespawnTime + this.vehicleRespawnTimer <= Date.now()) {
       this.createVehicles(server);
       this.lastVehicleRespawnTime = Date.now();

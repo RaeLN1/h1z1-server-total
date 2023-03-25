@@ -55,3 +55,5 @@
     * Reduced search times
 * useoptions.ts
     * Removed "givetrash" from water and canned food
+* worldobjectmanager.ts
+    * No zombies
