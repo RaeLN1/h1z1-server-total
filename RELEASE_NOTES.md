@@ -35,10 +35,7 @@
     * Changed permissions
     * Third / First person sniper
 * lootspawns.ts
-    * Custom lootspawn values
-    * GROUND_TILLER added on ItemSpawnerFarm.adr
-    * WEAPON_AK47 added on ItemSpawner_Z1_MilitaryBase_Tents2.adr
-    * SUGAR added on Cabinets
+    * Lootspawn revamp
 * basefullcharacter.ts
     * Hammer durability increased
 * decaymanager.ts
@@ -56,5 +53,5 @@
     * Translations
 * lootableprops.ts
     * Reduced search times
-* worldobjectmanager.ts
-    * Fixed createContainerLoot chance logic
+* useoptions.ts
+    * Removed "givetrash" from water and canned food
