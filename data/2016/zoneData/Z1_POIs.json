@@ -3,7 +3,7 @@
     "POIid": 1,
     "POIname": "Pleasant Valley",
     "stringId": 9570,
-    "range": 500,
+    "range": 750,
     "bounds": [
       [
         [ 688.8599853515625, -1381.3299560546875 ],
@@ -35,7 +35,7 @@
     "POIid": 3,
     "POIname": "Bubba's Truck Stop",
     "stringId": 9550,
-    "range": 250,
+    "range": 500,
     "bounds": [
       [
         [ -361.24, 2709.03 ],
@@ -55,7 +55,7 @@
     "POIid": 4,
     "POIname": "Bumjick Farms",
     "stringId": 9552,
-    "range": 200,
+    "range": 500,
     "bounds": [
       [
         [ -721.030029296875, -1885.239990234375 ],
@@ -75,7 +75,7 @@
     "POIid": 5,
     "POIname": "Cranberry",
     "stringId": 9554,
-    "range": 300,
+    "range": 750,
     "bounds": [
       [
         [ -1012.21, 1689.32 ],
@@ -95,7 +95,7 @@
     "POIid": 6,
     "POIname": "De Soto Service Stop",
     "stringId": 9556,
-    "range": 150,
+    "range": 300,
     "bounds": [
       [
         [ -2910.75, 1246.59 ],
@@ -115,7 +115,7 @@
     "POIid": 7,
     "POIname": "Hemingway Truck Stop",
     "stringId": 9558,
-    "range": 100,
+    "range": 250,
     "bounds": [
       [
         [ -1973.04, -2304 ],
@@ -135,7 +135,7 @@
     "POIid": 8,
     "POIname": "Hunter's Truck Stop",
     "stringId": 9560,
-    "range": 150,
+    "range": 300,
     "bounds": [
       [
         [ 1057.52, 3199.86 ],
@@ -155,7 +155,7 @@
     "POIid": 9,
     "POIname": "KZPV 98.5 FM Radio",
     "stringId": 9562,
-    "range": 100,
+    "range": 250,
     "position": [
       -1509.76,
       354,
@@ -167,7 +167,7 @@
     "POIid": 10,
     "POIname": "Lone Pine Development",
     "stringId": 9564,
-    "range": 300,
+    "range": 500,
     "bounds": [
       [
         [ -692.3400268554688, 2793.47998046875 ],
@@ -187,7 +187,7 @@
     "POIid": 11,
     "POIname": "Misty Peak Dam",
     "stringId": 9566,
-    "range": 150,
+    "range": 300,
     "bounds": [
       [
         [ -581.12, 815.99 ],
@@ -207,7 +207,7 @@
     "POIid": 12,
     "POIname": "Opfer Wilderness Camp",
     "stringId": 9568,
-    "range": 300,
+    "range": 500,
     "position": [
       -1947.34,
       72.64,
@@ -219,7 +219,7 @@
     "POIid": 13,
     "POIname": "Ranchito Taquito",
     "stringId": 9572,
-    "range": 400,
+    "range": 750,
     "bounds": [
       [
         [ 1783.84, 2037.79 ],
@@ -239,7 +239,7 @@
     "POIid": 14,
     "POIname": "The Villas Development",
     "stringId": 9576,
-    "range": 200,
+    "range": 400,
     "bounds": [
       [
         [ 475.79998779296875, 2951.860107421875 ],
@@ -259,7 +259,7 @@
     "POIid": 15,
     "POIname": "Wake Hills Hamlet",
     "stringId": 9578,
-    "range": 100,
+    "range": 200,
     "position": [
       -3165.71,
       67.58,
@@ -271,7 +271,7 @@
     "POIid": 16,
     "POIname": "Runamok Campsite",
     "stringId": 9574,
-    "range": 50,
+    "range": 150,
     "position": [
       -2920.35,
       6.03,
@@ -283,7 +283,7 @@
     "POIid": 17,
     "POIname": "Kurama Medical Facility",
     "stringId": 12838,
-    "range": 350,
+    "range": 500,
     "bounds": [
       [
         [ 1853.75, -2859.73 ],
@@ -303,7 +303,7 @@
     "POIid": 18,
     "POIname": "Military Base",
     "stringId": 9550,
-    "range": 0,
+    "range": 500,
     "bounds": [
       [
         [ 558.22998046875, -2550.699951171875 ],
@@ -343,7 +343,7 @@
     "POIid": 20,
     "POIname": "Governor's Compound",
     "stringId": 13566,
-    "range": 200,
+    "range": 400,
     "bounds": [
       [
         [ 2827.72, -2368.44 ],

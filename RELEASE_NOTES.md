@@ -57,3 +57,5 @@
     * Removed "givetrash" from water and canned food
 * worldobjectmanager.ts
     * No zombies
+* Z1_POIs.json
+    * Increased block construction range
