@@ -34,6 +34,7 @@
     * Removed "shutdown" command
     * Changed permissions
     * Third / First person sniper
+    * Fix vanish first person bug
 * lootspawns.ts
     * Lootspawn revamp
 * basefullcharacter.ts
