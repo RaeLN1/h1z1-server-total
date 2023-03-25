@@ -791,14 +791,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.EMERGENCY_RADIO,
         weight: 7,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   // #endregion
@@ -1024,14 +1024,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 2,
         },
       },
-      {
+      /*{
         item: Items.EMERGENCY_RADIO,
         weight: 7,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   // #endregion
@@ -1128,14 +1128,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.EMERGENCY_RADIO,
         weight: 7,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   // #endregion
@@ -1192,14 +1192,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.EMERGENCY_RADIO,
         weight: 7,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   // #endregion
@@ -1441,14 +1441,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.EMERGENCY_RADIO,
         weight: 50,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   "ItemSpawner_Z1_MilitaryBase_Tents1.adr": {
@@ -1599,14 +1599,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.EMERGENCY_RADIO,
         weight: 50,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   "ItemSpawner_Z1_MilitaryBase_Tents2.adr": {
@@ -1677,14 +1677,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.EMERGENCY_RADIO,
         weight: 50,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   "ItemSpawner_Z1_MilitaryBase_Hangar.adr": {
@@ -2067,22 +2067,22 @@ export const containerLootSpawners: {
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.SALT,
         weight: 40,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
     ],
   },
   "Cabinets Cube": {
-    spawnChance: 100,
+    spawnChance: 5,
     maxItems: 1,
     items: [
       {
-        item: Items.SALT,
+        item: Items.SUGAR,
         weight: 20,
         spawnCount: {
           min: 1,
@@ -2095,14 +2095,14 @@ export const containerLootSpawners: {
     spawnChance: 100,
     maxItems: 2,
     items: [
-      {
+      /*{
         item: Items.SALT,
         weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
       {
         item: Items.SUGAR,
         weight: 10,
