@@ -21,7 +21,7 @@
     * Translations
     * Discord Hook Ip Channel on Disconnect
     * Whitelist logic and messages
-    * Kill feed
+    * Custom Killfeed
     * Hammer durability increased
     * Stack ammo dismantle
     * Removed combatlog condition to dead players
