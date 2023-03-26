@@ -24,7 +24,7 @@ enum GroupErrors {
 
 export class GroupManager {
   nextGroupId = 1;
-  maxGroupMembers = 8;
+  maxGroupMembers = 5;
   groups: { [groupId: number]: Group } = {};
   pendingInvites: { [characterId: string]: number } = {};
 
