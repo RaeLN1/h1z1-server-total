@@ -24,6 +24,7 @@ enum GroupErrors {
 
 export class GroupManager {
   nextGroupId = 1;
+  maxGroupMembers = 8;
   groups: { [groupId: number]: Group } = {};
   pendingInvites: { [characterId: string]: number } = {};
 
@@ -257,6 +258,16 @@ export class GroupManager {
     group = this.groups[source.character.groupId];
     if (!group) {
       server.sendAlert(source, "FAILED TO CREATE GROUP - PLEASE REPORT");
+      return;
+    }
+
+    if (group.members.length >= this.maxGroupMembers) {
+      server.sendAlert(
+        source,
+        `Group limit reached. Maximum ${this.maxGroupMembers} players allowed.`
+      );
+      server.sendAlert(target, "Group invite declined due to group limit.");
+      delete this.pendingInvites[target.character.characterId];
       return;
     }
 
