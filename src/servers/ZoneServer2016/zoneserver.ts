@@ -1503,7 +1503,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (!this.weaponDefinitionsCache) {
       this.packWeaponDefinitions();
     }
-    if (client.forceFpScope !== null) {
+    if (client.forceFpScope !== null && client.forceFpScope !== undefined) {
       this.sendRawData(client, client.forceFpScope ? this.weaponDefinitionsCacheFP : this.weaponDefinitionsCacheTP);
     } else {
       this.sendRawData(client, this.weaponDefinitionsCache);
