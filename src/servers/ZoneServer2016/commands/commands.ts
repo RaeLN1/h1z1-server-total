@@ -1236,7 +1236,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "additem",
-    permissionLevel: PermissionLevels.ADMIN,
+    permissionLevel: PermissionLevels.DEV,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0]) {
         server.sendChatText(
@@ -1342,7 +1342,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "kit",
-    permissionLevel: PermissionLevels.ADMIN,
+    permissionLevel: PermissionLevels.DEV,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       client.character.equipLoadout(server, characterKitLoadout);
     },
@@ -1762,7 +1762,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "build",
-    permissionLevel: PermissionLevels.ADMIN,
+    permissionLevel: PermissionLevels.DEV,
     execute: async (
       server: ZoneServer2016,
       client: Client,
