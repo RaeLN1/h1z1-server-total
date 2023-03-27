@@ -1835,7 +1835,11 @@ export class ZoneServer2016 extends EventEmitter {
         );
       }
       
-      this.customKillFeed(sourceClient, client, damageInfo);
+      this.sendDataToAll("Character.KilledBy", {
+        killed: client.character.characterId,
+        killer: sourceClient.character.characterId,
+        isCheater: sourceClient.character.godMode,
+      });
       
       client.lastDeathReport = {
         position: client.character.state.position,
@@ -1921,17 +1925,6 @@ export class ZoneServer2016 extends EventEmitter {
     this.clearInventory(client, false);
 
     this.hookManager.checkHook("OnPlayerDied", client, damageInfo);
-  }
-
-  customKillFeed(killer: Client, killed: Client, damageInfo: DamageInfo) {
-    if (!killed.currentPOI) return;
-    for (const a in this._clients) {
-      if (this._clients[a].currentPOI != killed.currentPOI)
-        continue;
-
-      const weapon = damageInfo.weapon ? `com uma <font color="#FF0000">${Items[damageInfo.weapon].replace("WEAPON_", "")}</font>`: "";
-      this.sendAlert(this._clients[a], `${killer.character.name} matou ${killed.character.name} ${weapon}`);
-    }
   }
 
   async explosionDamage(
