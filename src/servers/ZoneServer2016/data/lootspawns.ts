@@ -435,14 +435,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
   "ItemSpawner_CannedFood.adr": {
     spawnChance: 20,
     items: [
-      {
+      /*{
         item: Items.GROUND_COFFEE,
         weight: 100,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
       {
         item: Items.CANNED_FOOD01,
         weight: 100,
@@ -1066,7 +1066,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 15,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1186,7 +1186,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },*/
       {
         item: Items.WATER_EMPTY,
-        weight: 15,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1242,7 +1242,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SEED_CORN,
-        weight: 20,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1250,7 +1250,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SEED_WHEAT,
-        weight: 20,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2201,23 +2201,23 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.SUGAR,
-        weight: 10,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
         },
       },
-      {
+      /*{
         item: Items.GROUND_COFFEE,
         weight: 50,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
       {
         item: Items.CANNED_FOOD01,
-        weight: 40,
+        weight: 85,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2355,7 +2355,7 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.FERTILIZER,
-        weight: 25,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2409,7 +2409,7 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.FERTILIZER,
-        weight: 25,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,

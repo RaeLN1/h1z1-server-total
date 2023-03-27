@@ -62,3 +62,5 @@
     * No zombies
 * Z1_POIs.json
     * Increased block construction range
+* groupmanager.ts
+    * Limit group size
