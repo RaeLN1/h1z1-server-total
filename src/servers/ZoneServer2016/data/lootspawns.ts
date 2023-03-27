@@ -1066,7 +1066,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 20,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1242,7 +1242,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SEED_CORN,
-        weight: 30,
+        weight: 25,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1250,7 +1250,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SEED_WHEAT,
-        weight: 30,
+        weight: 25,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2334,7 +2334,7 @@ export const containerLootSpawners: {
     ],
   },
   Dumpster: {
-    spawnChance: 25,
+    spawnChance: 20,
     maxItems: 1,
     items: [
       /*{
@@ -2388,7 +2388,7 @@ export const containerLootSpawners: {
     ],
   },
   "Garbage Can": {
-    spawnChance: 25,
+    spawnChance: 20,
     maxItems: 1,
     items: [
       /*{
@@ -2734,7 +2734,7 @@ export const containerLootSpawners: {
     items: [
       {
         item: Items.FERTILIZER,
-        weight: 25,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2742,7 +2742,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WOOD_PLANK,
-        weight: 75,
+        weight: 80,
         spawnCount: {
           min: 1,
           max: 1,
