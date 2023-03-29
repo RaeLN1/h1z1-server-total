@@ -220,7 +220,7 @@ export const commands: Array<Command> = [
   {
     name: "vanish",
     permissionLevel: PermissionLevels.MODERATOR,
-    execute: async (server: ZoneServer2016, client: Client) => {
+    execute: (server: ZoneServer2016, client: Client) => {
       client.character.isSpectator = !client.character.isSpectator;
       server.sendAlert(
         client,
@@ -251,10 +251,7 @@ export const commands: Array<Command> = [
           );
         }
       }
-      const charData = WorldDataManager.convertCharactersToSaveData([client.character], server._worldId);
-      await server.worldDataManager.saveCharacterData(charData[0]);
       server.sendData(client, "Spectator.Enable", {});
-      server.sendCharacterData(client);
     },
   },
   {

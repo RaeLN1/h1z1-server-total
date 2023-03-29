@@ -2442,8 +2442,8 @@ export const containerLootSpawners: {
     ],
   },
   "File Cabinet": {
-    spawnChance: 100,
-    maxItems: 5,
+    spawnChance: 25,
+    maxItems: 3,
     items: [
       /*{
         item: Items.SUGAR,
