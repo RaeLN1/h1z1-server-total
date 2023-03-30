@@ -101,7 +101,7 @@ import { Items } from "../models/enums";
 export const lootTables: { [lootSpawner: string]: LootSpawner } = {
   // #region AR15
   "ItemSpawner_Weapon_M16A4.adr": {
-    spawnChance: 15,
+    spawnChance: 10,
     items: [
       {
         item: Items.WEAPON_AR15,
@@ -172,7 +172,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
 
   // #region TOOLS
   "ItemSpawner_Weapon_Crowbar01.adr": {
-    spawnChance: 15,
+    spawnChance: 20,
     items: [
       {
         item: Items.WEAPON_CROWBAR,
@@ -957,7 +957,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
 
   // #region INDUSTRIAL
   "ItemSpawnerIndustrial_Tier00.adr": {
-    spawnChance: 15,
+    spawnChance: 20,
     items: [
       // ...carparts,
       {
@@ -2201,7 +2201,7 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.SUGAR,
-        weight: 15,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2217,7 +2217,7 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.CANNED_FOOD01,
-        weight: 85,
+        weight: 80,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2293,7 +2293,7 @@ export const containerLootSpawners: {
     items: [
       {
         item: Items.WEAPON_CROWBAR,
-        weight: 5,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,

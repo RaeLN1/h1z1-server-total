@@ -15,7 +15,7 @@ export const UseOptions: { [itemDefinitionIds: number]: ItemUseOption } = {
     type: ItemUseOptions.EAT,
     timeout: 1000,
     eatCount: 4000,
-    givetrash: 0,
+    givetrash: 48,
   },
   3: {
     itemDef: Items.MRE_APPLE,
@@ -141,7 +141,7 @@ export const UseOptions: { [itemDefinitionIds: number]: ItemUseOption } = {
     eatCount: 4000,
     drinkCount: 4000,
     staminaCount: 200,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
   46: {
     itemDef: Items.SURVIVAL_BORSCHT,
@@ -226,21 +226,21 @@ export const UseOptions: { [itemDefinitionIds: number]: ItemUseOption } = {
     type: ItemUseOptions.DRINK,
     timeout: 1000,
     drinkCount: 1000,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
   12: {
     itemDef: Items.WATER_STAGNANT,
     type: ItemUseOptions.DRINK,
     timeout: 1000,
     drinkCount: 2000,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
   13: {
     itemDef: Items.WATER_PURE,
     type: ItemUseOptions.DRINK,
     timeout: 1000,
     drinkCount: 4000,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
   33: {
     itemDef: Items.BLACKBERRY_JUICE,
@@ -248,7 +248,7 @@ export const UseOptions: { [itemDefinitionIds: number]: ItemUseOption } = {
     timeout: 1000,
     eatCount: 2000,
     drinkCount: 6000,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
   34: {
     itemDef: Items.COFFEE,
@@ -256,7 +256,7 @@ export const UseOptions: { [itemDefinitionIds: number]: ItemUseOption } = {
     timeout: 1000,
     drinkCount: 4000,
     staminaCount: 300,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
   35: {
     itemDef: Items.COFFEE_SUGAR,
@@ -264,7 +264,7 @@ export const UseOptions: { [itemDefinitionIds: number]: ItemUseOption } = {
     timeout: 1000,
     drinkCount: 4000,
     staminaCount: 400,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
 
   38: {
@@ -273,7 +273,7 @@ export const UseOptions: { [itemDefinitionIds: number]: ItemUseOption } = {
     timeout: 1000,
     eatCount: 5000,
     drinkCount: 5000,
-    givetrash: 0,
+    givetrash: Items.WATER_EMPTY,
   },
   41: {
     itemDef: Items.MOONSHINE,

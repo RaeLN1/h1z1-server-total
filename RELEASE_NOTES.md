@@ -53,8 +53,6 @@
     * Translations
 * lootableprops.ts
     * Reduced search times
-* useoptions.ts
-    * Removed "givetrash" from water and canned food
 * worldobjectmanager.ts
     * No zombies
 * Z1_POIs.json
