@@ -11,14 +11,12 @@
     * Encrypted suspicious process list
 * zonepackethandlers.ts
     * Whitelist check
-    * Translations
     * Logout timer
     * Third / First person sniper
 * zoneserver.ts
     * Max Ping
     * Custom decrypt key
     * Save time interval
-    * Translations
     * Discord Hook Ip Channel on Disconnect
     * Whitelist logic and messages
     * Killfeed
@@ -29,12 +27,12 @@
 * zoneclient.ts
     * Third / First person sniper
 * commands.ts
-    * Translations
     * Discord Hook Ban Channel on Ban
     * Removed "shutdown" command
     * Changed permissions
     * Third / First person sniper
-* lootspawns.ts
+    * Points to lootspawns-total
+* lootspawns-total.ts
     * Lootspawn revamp
 * basefullcharacter.ts
     * Hammer durability increased
@@ -46,16 +44,14 @@
     * Encryption and decryption changes
 * character.ts
     * Increased combatlog length
-    * Translations
-* plant.ts
-    * Translations
-* taskprop.ts
-    * Translations
 * lootableprops.ts
     * Reduced search times
 * worldobjectmanager.ts
     * No zombies
+    * Points to lootspawns-total
 * Z1_POIs.json
     * Increased block construction range
 * groupmanager.ts
     * Limit group size
+* crate.ts
+    * Points to lootspawns-total

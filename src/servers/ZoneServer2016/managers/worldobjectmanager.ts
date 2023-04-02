@@ -48,7 +48,7 @@ import { DoorEntity } from "../entities/doorentity";
 import { Zombie } from "../entities/zombie";
 import { BaseFullCharacter } from "../entities/basefullcharacter";
 import { ExplosiveEntity } from "../entities/explosiveentity";
-import { lootTables, containerLootSpawners } from "../data/lootspawns";
+import { lootTables, containerLootSpawners } from "../data/lootspawns-total";
 import { BaseItem } from "../classes/baseItem";
 import { Lootbag } from "../entities/lootbag";
 import { LootableProp } from "../entities/lootableprop";

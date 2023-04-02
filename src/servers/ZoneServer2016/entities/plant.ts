@@ -135,7 +135,7 @@ export class Plant extends ItemObject {
           ConstructionPermissionIds.CONTAINERS
         )
       ) {
-        server.sendChatText(client, "Construção: sem permissão...");
+        server.sendChatText(client, "Construction: no permission");
         return;
       }
     }

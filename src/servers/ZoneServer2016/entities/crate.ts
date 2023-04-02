@@ -15,7 +15,7 @@ import { BaseLightweightCharacter } from "./baselightweightcharacter";
 import { ZoneClient2016 } from "../classes/zoneclient";
 import { DamageInfo } from "../../../types/zoneserver";
 import { randomIntFromInterval, isPosInRadius } from "../../../utils/utils";
-import { containerLootSpawners } from "../data/lootspawns";
+import { containerLootSpawners } from "../data/lootspawns-total";
 import { getRandomItem } from "../managers/worldobjectmanager";
 
 function getActorModelId(actorModel: string): number {

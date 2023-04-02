@@ -141,13 +141,13 @@ export class zonePacketHandlers {
       client.character.lastLoginDate = toHex(Date.now());
       server.setGodMode(client, false);
       setTimeout(() => {
-        server.sendAlert(client, "Bem vindos ao servidor TOTAL, divirtam-se!");
+        server.sendAlert(client, "Welcome to H1emu! :D");
         server.sendChatText(
           client,
           `server population : ${_.size(server._characters)}`
         );
         if (client.isAdmin) {
-          server.sendAlert(client, "ADM TOTAL");
+          server.sendAlert(client, "You are an admin!");
         }
       }, 10000);
       if (client.banType != "") {
