@@ -40,6 +40,7 @@ import { BaseLootableEntity } from "./baselootableentity";
 import { LoadoutContainer } from "../classes/loadoutcontainer";
 import { characterDefaultLoadout } from "../data/loadouts";
 import { EquipmentSetCharacterEquipmentSlot } from "types/zone2016packets";
+import { Vehicle2016 } from "../entities/vehicle";
 const stats = require("../../../../data/2016/sampleData/stats.json");
 
 interface CharacterStates {
@@ -573,7 +574,6 @@ export class Character2016 extends BaseFullCharacter {
       unknownDword2: 100,
     });
     server.sendChatText(client, `Received ${damage} damage`);
-    if (!sourceEntity) return;
 
     const damageRecord = server.generateDamageRecord(
       this.characterId,
@@ -642,7 +642,10 @@ export class Character2016 extends BaseFullCharacter {
     this.updateLoadout(server);
 
     server.sendData(client, "AccessedCharacter.BeginCharacterAccess", {
-      objectCharacterId: lootableEntity.characterId,
+      objectCharacterId:
+        lootableEntity instanceof Vehicle2016
+          ? lootableEntity.characterId
+          : "0x0000000000000001",
       containerGuid: container.itemGuid,
       unknownBool1: false,
       itemsData: {
@@ -869,6 +872,15 @@ export class Character2016 extends BaseFullCharacter {
       "Equipment.SetCharacterEquipment",
       this.pGetEquipment(client.character.groupId)
     );
+    const c = server.getClientByCharId(this.characterId);
+    if (c && !c.firstLoading) {
+      server.updateCharacterState(
+        client,
+        this.characterId,
+        this.characterStates,
+        false
+      );
+    }
 
     if (this.onReadyCallback) {
       this.onReadyCallback(client);
@@ -884,7 +896,8 @@ export class Character2016 extends BaseFullCharacter {
       return;
     }
 
-    server.hitMissFairPlayCheck(
+    server.fairPlayManager.hitMissFairPlayCheck(
+      server,
       client,
       true,
       damageInfo.hitReport?.hitLocation || ""
