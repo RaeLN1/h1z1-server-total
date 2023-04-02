@@ -974,21 +974,21 @@ export const commands: Array<Command> = [
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0] && !server._decoys[client.character.transientId]) {
-        server.sendChatText(client, "usage /deocay {name}");
+        server.sendChatText(client, "usage /decoy {name}");
         return;
       }
       if (server._decoys[client.character.transientId]) {
         if (client.isDecoy) {
-          server.sendChatText(client, "Replicação de iscas desabilitada..");
+          server.sendChatText(client, "Decoy replication disabled");
           client.isDecoy = false;
         } else {
-          server.sendChatText(client, "Replicação de iscas habilitada..");
+          server.sendChatText(client, "Decoy replication enabled");
           client.isDecoy = true;
         }
         return;
       }
       if (!client.character.isSpectator) {
-        server.sendChatText(client, "Você precisa estar no modo espectador para utilizar este comando.");
+        server.sendChatText(client, "You must be in vanish mode to use this");
         return;
       }
       const mimic = client.character.pGetLightweight();
@@ -1242,7 +1242,7 @@ export const commands: Array<Command> = [
     },
   },
  /* {
-     name: "shutdown",
+    name: "shutdown",
     permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
@@ -1253,7 +1253,7 @@ export const commands: Array<Command> = [
       const message = args[1] ? args[1] : " ";
       const startedTime = Date.now();
       await zoneShutdown(server, startedTime, Number(timeLeft), message);
-    },	
+    },
   },*/
   {
     name: "spawnloot",
@@ -1340,7 +1340,7 @@ export const commands: Array<Command> = [
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       const wep = server.generateItem(Items.WEAPON_REMOVER);
-      if (wep && wep.weapon) wep.weapon.ammoCount = 100;
+      if (wep && wep.weapon) wep.weapon.ammoCount = 1000;
       client.character.lootItem(server, wep);
     },
   },
@@ -2191,7 +2191,7 @@ export const commands: Array<Command> = [
       server.groupManager.handleGroupCommand(server, client, args);
     },
   },
-  
+
   //#endregion
 
   //#region DEV PERMISSIONS

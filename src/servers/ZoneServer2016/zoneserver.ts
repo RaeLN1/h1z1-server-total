@@ -3481,8 +3481,8 @@ export class ZoneServer2016 extends EventEmitter {
           client,
           reason
             ? `YOU HAVE BEEN BANNED FROM THE SERVER UNTIL ${this.getDateString(
-              timestamp
-            )}. REASON: ${reason}`
+                timestamp
+              )}. REASON: ${reason}`
             : `YOU HAVE BEEN BANNED FROM THE SERVER UNTIL: ${this.getDateString(
                 timestamp
               )}`
@@ -4556,7 +4556,7 @@ export class ZoneServer2016 extends EventEmitter {
       case this.isHelmet(itemDefinitionId):
         durability = 100;
         break;
-    }    
+    }
     const itemData: BaseItem = new BaseItem(
       itemDefinitionId,
       generatedGuid,

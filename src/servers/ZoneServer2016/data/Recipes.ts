@@ -196,7 +196,7 @@ export const smeltingData: { [recipeId: number]: smeltRecipe } = {
   /*
   14: {
     filterId: FilterIds.FURNACE,
-    rewardId: Items.NAIL,
+    rewardId: Items.METAL_BAR,
     components: [
       {
         itemDefinitionId: Items.NAIL,
