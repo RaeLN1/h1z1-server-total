@@ -25,6 +25,8 @@
     * Points to lootspawns-total
 * src\servers\ZoneServer2016\entities\lootableprop.ts
     * Reduced search times
+* src\servers\ZoneServer2016\managers\fairplaymanager.ts
+    * Decrypt keys
 * src\servers\ZoneServer2016\managers\groupmanager.ts
     * Limit group size
 * src\servers\ZoneServer2016\managers\worldobjectmanager.ts
@@ -44,6 +46,8 @@
     * Webhook interface
 * src\utils\utils.ts
     * Encryption and Generate Key function
+* config.yaml
+    * Server configs
 * package.json + package-lock.json
     * Installed discord-webhook-node
 * RELEASE_NOTES.md

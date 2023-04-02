@@ -33,8 +33,8 @@ const encryptedData = require("../../../../data/2016/encryptedData/encryptedData
   fairPlayData = require("../../../../data/2016/encryptedData/fairPlayData.json");
 
 export class FairPlayManager {
-  _decryptKey: string = "";
-  _fairPlayDecryptKey: string = "";
+  _decryptKey: string = process.env.DECRYPT_KEY || "";
+  _fairPlayDecryptKey: string = process.env.DECRYPT_KEY_FAIR_PLAY || "";
   _suspiciousList: string[] = [];
   fairPlayValues?: FairPlayValues;
   banInfoAcceptance: Array<BAN_INFO> = [
