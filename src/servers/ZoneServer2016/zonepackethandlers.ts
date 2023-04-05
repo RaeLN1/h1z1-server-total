@@ -139,8 +139,8 @@ export class ZonePacketHandlers {
     if (!server.hookManager.checkHook("OnClientFinishedLoading", client))
       return;
 
-    const isAllowed = await server.isWhiteListed(client);
-    if (!isAllowed) return;
+    // const isAllowed = await server.isWhiteListed(client);
+    // if (!isAllowed) return;
 
     server.tempGodMode(client, 15000);
     client.currentPOI = 0; // clears currentPOI for POIManager
@@ -152,10 +152,10 @@ export class ZonePacketHandlers {
       setTimeout(() => {
         if (server.welcomeMessage)
           server.sendAlert(client, server.welcomeMessage);
-        server.sendChatText(
+/*        server.sendChatText(
           client,
           `server population : ${_.size(server._characters)}`
-        );
+        ); */
         if (client.isAdmin) {
           if (server.adminMessage)
             server.sendAlert(client, server.adminMessage);

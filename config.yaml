@@ -3,8 +3,8 @@ server:
   adminMessage: "ADM TOTAL"
   proximityItemsDistance: 2
   interactionDistance: 3
-  charactersRenderDistance: 350
-  tickRate: 2000
+  charactersRenderDistance: 700
+  tickRate: 4000
   worldRoutineRate: 30000
 
 # Fairplay / anticheat config

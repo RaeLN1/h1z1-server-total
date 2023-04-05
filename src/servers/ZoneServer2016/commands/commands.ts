@@ -125,14 +125,14 @@ export const commands: Array<Command> = [
               : `${(uptimeMin / 60).toFixed()}h `
           }`
         );
-        server.sendChatText(
+       /* server.sendChatText(
           client,
           `clients : ${_.size(clients)} | npcs : ${_.size(npcs)}`
         );
         server.sendChatText(
           client,
-          `items : ${_.size(objects)} | vehicles : ${_.size(vehicles)}`
-        );
+          `items : ${_.size(objects)} | vehicles : ${_.size(vehicles)}` 
+        ); */
       }
     },
   },
@@ -689,7 +689,7 @@ export const commands: Array<Command> = [
       );
       for (let index = 0; index < targetClient.clientLogs.length; index++) {
         const element = targetClient.clientLogs[index];
-        server.sendChatText(client, `${element.log}`);
+        server.sendChatText(client, `${element.log}`); 
       }
     },
   },
