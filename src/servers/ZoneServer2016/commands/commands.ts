@@ -689,7 +689,7 @@ export const commands: Array<Command> = [
       );
       for (let index = 0; index < targetClient.clientLogs.length; index++) {
         const element = targetClient.clientLogs[index];
-        server.sendChatText(client, `${element.log}`); 
+        server.sendChatText(client, `${element.log}`);
       }
     },
   },

@@ -1225,11 +1225,11 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
     spawnChance: 35,
     items: [
       {
-        item: Items.FERTILIZER,
+        item: Items.AMMO_308,
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 1,
+          max: 3,
         },
       },
       {
@@ -2200,11 +2200,11 @@ export const containerLootSpawners: {
         },
       },*/
       {
-        item: Items.SUGAR,
+        item: Items.AMMO_762,
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 1,
+          max: 3,
         },
       },
       /*{
@@ -2354,11 +2354,11 @@ export const containerLootSpawners: {
         },
       },*/
       {
-        item: Items.FERTILIZER,
+        item: Items.AMMO_762,
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 1,
+          max: 3,
         },
       },
       {
@@ -2408,11 +2408,11 @@ export const containerLootSpawners: {
         },
       },*/
       {
-        item: Items.FERTILIZER,
+        item: Items.AMMO_762,
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 1,
+          max: 3,
         },
       },
       {
@@ -2733,11 +2733,11 @@ export const containerLootSpawners: {
     maxItems: 1,
     items: [
       {
-        item: Items.FERTILIZER,
+        item: Items.AMMO_308,
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 1,
+          max: 3,
         },
       },
       {
@@ -2811,11 +2811,11 @@ export const containerLootSpawners: {
         },
       },*/
       {
-        item: Items.FERTILIZER,
+        item: Items.AMMO_762,
         weight: 15,
         spawnCount: {
           min: 1,
-          max: 1,
+          max: 4,
         },
       },
     ],
