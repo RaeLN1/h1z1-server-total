@@ -35,7 +35,7 @@
             "statValue": {
                 "type": 0,
                 "value": {
-                    "base": 1,
+                    "base": 5.25,
                     "modifier": 0
                 }
             }
@@ -77,7 +77,7 @@
             "statValue": {
                 "type": 1,
                 "value": {
-                    "base": 1.4,
+                    "base": 1.6,
                     "modifier": 0,
                     "comment_old_value":  1.7
                 }
@@ -106,7 +106,7 @@
             "statValue": {
                 "type": 1,
                 "value": {
-                    "base": 0.75,
+                    "base": 1,
                     "modifier": 0
                 }
             }

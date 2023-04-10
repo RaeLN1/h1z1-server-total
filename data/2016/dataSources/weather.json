@@ -44,8 +44,8 @@
 		"skyBrightness1": 10,
 		"skyBrightness2": 0.0144,
 		"snow": 0,
-		"snowMap": 75,
-		"colorGradient": 0,
+		"snowMap": 0,
+		"colorGradient": 0.7,
 		"unknownDword8": 0.05,
 		"unknownDword9": 0,
 		"unknownDword10": 0.05,
@@ -68,9 +68,9 @@
 		"unknownDword27": 0,
 		"unknownDword28": 0.002,
 		"unknownDword29": 8000,
-		"AOSize": 0,
-		"AOGamma": 0.25,
-		"AOBlackpoint": 7,
+		"AOSize": 0.1,
+		"AOGamma": 0.8,
+		"AOBlackpoint": 0.2,
 		"unknownDword33": 0.5
 	},
 	"sunset": {
