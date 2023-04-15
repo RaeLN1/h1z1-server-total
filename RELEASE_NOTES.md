@@ -2,8 +2,12 @@
 
 * .vscode\launch.json
     * Development environment configurations
+* data\2016\dataSources\weather.json
+    * Gamma changes
 * data\2016\encryptedData\encryptedData.json
     * Encrypted suspicious process list
+* data\2016\sampleData\stats.json
+    * Base speed
 * data\2016\zoneData\Z1_POIs.json
     * Increased block construction range
 
@@ -46,6 +50,11 @@
     * Webhook interface
 * src\utils\utils.ts
     * Encryption and Generate Key function
+
+* .gitignore
+    * Removed config.yaml file ignore
+* communityinstall.sh
+    * Added install file
 * config.yaml
     * Server configs
 * package.json + package-lock.json
