@@ -1233,6 +1233,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
         },
       },
       {
+        item: Items.SUGAR,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 3,
+        },
+      },
+      {
         item: Items.WEAPON_AXE_WOOD,
         weight: 10,
         spawnCount: {
@@ -2225,10 +2233,10 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.SUGAR,
-        weight: 20,
+        weight: 25,
         spawnCount: {
           min: 1,
-          max: 1,
+          max: 2,
         },
       },
       /*{
@@ -2702,6 +2710,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.SUGAR,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 3,
+        },
+      },
+      {
         item: Items.CHARCOAL,
         weight: 25,
         spawnCount: {
@@ -2756,6 +2772,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.SUGAR,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 3,
+        },
+      },
+      {
         item: Items.CHARCOAL,
         weight: 25,
         spawnCount: {
@@ -2785,14 +2809,14 @@ export const containerLootSpawners: {
     spawnChance: 25,
     maxItems: 3,
     items: [
-      /*{
+      {
         item: Items.SUGAR,
-        weight: 13,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 2,
         },
-      },*/
+      },
       {
         item: Items.AMMO_380,
         weight: 15,
@@ -3081,6 +3105,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.SUGAR,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 3,
+        },
+      },
+      {
         item: Items.WOOD_PLANK,
         weight: 80,
         spawnCount: {
@@ -3158,6 +3190,14 @@ export const containerLootSpawners: {
           max: 1,
         },
       },
+      {
+        item: Items.SUGAR,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 3,
+        },
+      },
     ],
   },
 
@@ -3228,6 +3268,14 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 15,
           max: 15,
+        },
+      },
+      {
+        item: Items.SUGAR,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 3,
         },
       },
     ],
