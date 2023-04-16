@@ -2255,9 +2255,9 @@ export const containerLootSpawners: {
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.SEED_CORN,
-        weight: 25,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2265,12 +2265,12 @@ export const containerLootSpawners: {
       },
       {
         item: Items.SEED_WHEAT,
-        weight: 25,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
     ],
   },
   "Cabinets Bathroom": {
