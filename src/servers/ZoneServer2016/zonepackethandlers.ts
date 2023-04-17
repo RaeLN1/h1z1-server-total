@@ -141,8 +141,8 @@ export class ZonePacketHandlers {
     if (!server.hookManager.checkHook("OnClientFinishedLoading", client))
       return;
 
-    const isAllowed = await server.isWhiteListed(client);
-    if (!isAllowed) return;
+    //const isAllowed = await server.isWhiteListed(client);
+    //if (!isAllowed) return;
 
     server.tempGodMode(client, 15000);
     client.currentPOI = 0; // clears currentPOI for POIManager

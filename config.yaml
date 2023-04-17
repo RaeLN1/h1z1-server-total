@@ -9,12 +9,12 @@ server:
 
 # Fairplay / anticheat config
 fairplay:
-  useFairplay: true
+  useFairplay: false
   maxPing: 500
   pingTimeoutTime: 30000
 
 weather:
-  cycleSpeed: 100
+  cycleSpeed: 50
   frozeCycle: false
   defaultTemplate: "z1br"
 

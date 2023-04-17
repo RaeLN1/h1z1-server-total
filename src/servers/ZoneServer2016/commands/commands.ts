@@ -574,7 +574,7 @@ export const commands: Array<Command> = [
         time
       );
 
-      DiscordHook.sendMessageOnBanChannel(`Usuário ${targetClient.character.name} foi banido por ${client.character.name || "Desconhecido"}. Motivo: ${reason}.`);
+      //DiscordHook.sendMessageOnBanChannel(`Usuário ${targetClient.character.name} foi banido por ${client.character.name || "Desconhecido"}. Motivo: ${reason}.`);
     },
   },
   {

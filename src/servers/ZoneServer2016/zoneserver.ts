@@ -417,7 +417,7 @@ export class ZoneServer2016 extends EventEmitter {
       }, 10000);
       
       const sessionId = client.sessionId;
-      DiscordHook.sendMessageOnIpChannel(`Nome: ${this._clients[sessionId].character.name}\nIP: ${client.address}`);
+      //DiscordHook.sendMessageOnIpChannel(`Nome: ${this._clients[sessionId].character.name}\nIP: ${client.address}`);
     }); 
 
     this._gatewayServer.on(
