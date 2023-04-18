@@ -3768,7 +3768,7 @@ export class ZoneServer2016 extends EventEmitter {
       this.sendData(client, "Character.SeekTarget", {
         characterId: this._airdrop.plane.characterId,
         TargetCharacterId: this._airdrop.planeTarget,
-        initSpeed: -20,
+        initSpeed: -25,
         acceleration: 0,
         speed: 0,
         turn: 5,
@@ -3808,7 +3808,7 @@ export class ZoneServer2016 extends EventEmitter {
         this.sendData(client, "Character.SeekTarget", {
           characterId: this._airdrop.cargo.characterId,
           TargetCharacterId: this._airdrop.cargoTarget,
-          initSpeed: -5,
+          initSpeed: -10,
           acceleration: 0,
           speed: 0,
           turn: 5,
@@ -3877,7 +3877,7 @@ export class ZoneServer2016 extends EventEmitter {
         this.sendData(client, "Character.SeekTarget", {
           characterId: this._airdrop.cargo.characterId,
           TargetCharacterId: this._airdrop.cargoTarget,
-          initSpeed: -5,
+          initSpeed: -10,
           acceleration: 0,
           speed: 0,
           turn: 5,
@@ -3906,7 +3906,7 @@ export class ZoneServer2016 extends EventEmitter {
       this.sendData(client, "Character.SeekTarget", {
         characterId: this._airdrop.plane.characterId,
         TargetCharacterId: this._airdrop.planeTarget,
-        initSpeed: -20,
+        initSpeed: -25,
         acceleration: 0,
         speed: 0,
         turn: 5,
