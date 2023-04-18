@@ -694,6 +694,44 @@ export const commands: Array<Command> = [
       }
     },
   },
+  {
+    name: "rael",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: async (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      // Check if the name or ZoneClientId is specified
+      if (!args[0]) {
+        server.sendChatText(
+          client,
+          `Correct usage: /rael {name | ZoneClientId}`
+        );
+        return;
+      }
+  
+      // Get the client with the specified name or ZoneClientId
+      const selectedClient = server.getClientByNameOrLoginSession(args[0]?.toString());
+  
+      // Check if the specified client exists and is not the same as the executing client
+      if (server.playerNotFound(client, args[0]?.toString(), selectedClient)) {
+        return;
+      }
+  
+      // Check if the selected client is a valid client object
+      if (!selectedClient || !(selectedClient instanceof Client)) {
+        server.sendChatText(client, "Client not found.");
+        return;
+      }
+  
+      // Display the process list of the selected client
+      server.sendChatText(
+        client,
+        `Showing process list of user: ${selectedClient.character.name}`
+      );
+  
+      for (const log of selectedClient.clientLogs) {
+        server.sendChatText(client, `${log.log}`);
+      }
+    },
+  }
   //#endregion
 
   //#region ADMIN PERMISSIONS
