@@ -3272,10 +3272,10 @@ export const containerLootSpawners: {
       },
       {
         item: Items.SUGAR,
-        weight: 25,
+        weight: 1,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 15,
+          max: 15,
         },
       },
     ],
@@ -3296,8 +3296,8 @@ export const containerLootSpawners: {
         item: Items.IED,
         weight: 1,
         spawnCount: {
-          min: 25,
-          max: 25,
+          min: 15,
+          max: 15,
         },
       },
       {
@@ -3312,16 +3312,16 @@ export const containerLootSpawners: {
         item: Items.FUEL_ETHANOL,
         weight: 1,
         spawnCount: {
-          min: 25,
-          max: 25,
+          min: 15,
+          max: 15,
         },
       },
       {
         item: Items.LANDMINE,
         weight: 1,
         spawnCount: {
-          min: 10,
-          max: 10,
+          min: 5,
+          max: 5,
         },
       },
       {
