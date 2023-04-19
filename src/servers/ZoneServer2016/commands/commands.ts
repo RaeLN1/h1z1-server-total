@@ -731,7 +731,7 @@ export const commands: Array<Command> = [
         server.sendChatText(client, `${log.log}`);
       }
     },
-  }
+  },
   //#endregion
 
   //#region ADMIN PERMISSIONS
