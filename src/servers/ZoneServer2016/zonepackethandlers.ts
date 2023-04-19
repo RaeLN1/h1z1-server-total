@@ -731,7 +731,7 @@ export class ZonePacketHandlers {
                 server.sendData(client, "Character.SeekTarget", {
                   characterId: server._airdrop.cargo.characterId,
                   TargetCharacterId: server._airdrop.cargoTarget,
-                  initSpeed: -10,
+                  initSpeed: -5,
                   acceleration: 0,
                   speed: 0,
                   turn: 5,
