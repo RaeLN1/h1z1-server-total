@@ -1402,6 +1402,24 @@ export const commands: Array<Command> = [
     },
   },
   {
+    name: "raelips",
+    permissionLevel: PermissionLevels.MODERATOR,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      server.sendChatText(
+        client,
+        `Players: ${Object.values(server._clients)
+          .map((c) => {
+            return `${c.character.name}: ${c.loginSessionId} | ${
+              server.getSoeClient(c.soeClientId)?.getNetworkStats()[2]
+            } | ${server.getSoeClient(c.soeClientId)?.getNetworkStats()[0]} | ${
+              server.getSoeClient(c.soeClientId)?.getNetworkStats()[1]
+            } | ${server.getSoeClient(c.soeClientId)?.getRemoteAddress()?.address}`;
+          })
+          .join(",\n")}`
+      );
+    },
+  },  
+  {
     name: "slay",
     permissionLevel: PermissionLevels.ADMIN,
     execute: async (
