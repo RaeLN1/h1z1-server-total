@@ -1384,7 +1384,7 @@ export const commands: Array<Command> = [
     },
   },
   {
-    name: "players",
+    name: "p",
     permissionLevel: PermissionLevels.MODERATOR,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       server.sendChatText(
@@ -1395,7 +1395,7 @@ export const commands: Array<Command> = [
               server.getSoeClient(c.soeClientId)?.getNetworkStats()[2]
             } | ${server.getSoeClient(c.soeClientId)?.getNetworkStats()[0]} | ${
               server.getSoeClient(c.soeClientId)?.getNetworkStats()[1]
-            }`;
+            } | IP: ${server.getSoeClient(c.soeClientId)?.address};`;
           })
           .join(",\n")}`
       );
