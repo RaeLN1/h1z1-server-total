@@ -616,7 +616,7 @@ export class ZoneServer2016 extends EventEmitter {
   
       setTimeout(() => {
         this.sendAlert(client, "Atenção, é necessário solicitar a liberação do seu IP......");
-        this.sendAlert(client, `Acesse nosso discord: bit.ly/h1sa e solicite a liberação do IP ${address}...`);
+        this.sendAlert(client, `Acesse nosso discord.gg/h1sa e solicite a liberação do IP ${address}...`);
         this.sendAlert(client, `No discord, utilize da opção "whitelist"..`);
         this.sendAlert(client, `O jogo será fechado em 15 segundos.`);
       }, 10000);

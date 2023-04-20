@@ -1465,6 +1465,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
+      {
+        item: Items.CONVEYS_BLUE,
+        weight: 30,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
       /*{
         item: Items.EMERGENCY_RADIO,
         weight: 50,
@@ -1618,6 +1626,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       {
         item: Items.BACKPACK_MILITARY_TAN,
         weight: 100,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.CONVEYS_BLUE,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1883,6 +1899,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       {
         item: Items.BACKPACK_BLUE_ORANGE,
         weight: 100,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.CONVEYS_BLUE,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2317,6 +2341,22 @@ export const containerLootSpawners: {
           max: 1,
         },
       },
+      {
+        item: Items.BACKPACK_MILITARY_TAN,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.CONVEYS_BLUE,
+        weight: 30,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
     ],
   },
   "Tool Cabinet": {
@@ -2741,6 +2781,14 @@ export const containerLootSpawners: {
           max: 2,
         },
       },
+      {
+        item: Items.BACKPACK_MILITARY_TAN,
+        weight: 5,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
     ],
   },
   "Garbage Can": {
@@ -2801,6 +2849,14 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 2,
+        },
+      },
+      {
+        item: Items.BACKPACK_MILITARY_TAN,
+        weight: 5,
+        spawnCount: {
+          min: 1,
+          max: 1,
         },
       },
     ],

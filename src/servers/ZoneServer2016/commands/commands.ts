@@ -660,7 +660,7 @@ export const commands: Array<Command> = [
     },
   },
   {
-    name: "listprocesses",
+    name: "lp",
     permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
