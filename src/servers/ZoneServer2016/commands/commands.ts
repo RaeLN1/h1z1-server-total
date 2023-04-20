@@ -670,7 +670,7 @@ export const commands: Array<Command> = [
       if (!args[0]) {
         server.sendChatText(
           client,
-          `Correct usage: /listprocesses {name | ZoneClientId}`
+          `Correct usage: /lp {name | ZoneClientId}`
         );
         return;
       }
@@ -1395,7 +1395,7 @@ export const commands: Array<Command> = [
               server.getSoeClient(c.soeClientId)?.getNetworkStats()[2]
             } | ${server.getSoeClient(c.soeClientId)?.getNetworkStats()[0]} | ${
               server.getSoeClient(c.soeClientId)?.getNetworkStats()[1]
-            } | IP: ${server.getSoeClient(c.soeClientId)?.address};`;
+            } | IP: > ${server.getSoeClient(c.soeClientId)?.address} < ;`;
           })
           .join(",\n")}`
       );
