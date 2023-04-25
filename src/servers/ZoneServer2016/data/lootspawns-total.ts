@@ -25,6 +25,14 @@ import { Items } from "../models/enums";
     },
   },
   {
+    item: Items.VEHICLE_KEY,
+    weight: 10,
+    spawnCount: {
+      min: 1,
+      max: 1,
+    },
+  },
+  {
     item: Items.SPARKPLUGS,
     weight: 5,
     spawnCount: {
@@ -1371,10 +1379,18 @@ import { Items } from "../models/enums";
       },*/
       {
         item: Items.CLOTH,
-        weight: 100,
+        weight: 50,
         spawnCount: {
           min: 2,
           max: 5,
+        },
+      },
+      {
+        item: Items.VEHICLE_KEY,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 1,
         },
       },
     ],
@@ -1432,6 +1448,14 @@ import { Items } from "../models/enums";
         spawnCount: {
           min: 1,
           max: 5,
+        },
+      },
+      {
+        item: Items.VEHICLE_KEY,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1,
         },
       },
       /*{
@@ -2167,6 +2191,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.VEHICLE_KEY,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.HAT_CAP,
         weight: 50,
         spawnCount: {
@@ -2194,6 +2226,14 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 2,
+        },
+      },
+      {
+        item: Items.VEHICLE_KEY,
+        weight: 15,
+        spawnCount: {
+          min: 1,
+          max: 1,
         },
       },
       {
@@ -3114,6 +3154,14 @@ export const containerLootSpawners: {
           max: 1,
         },
       },
+      {
+        item: Items.VEHICLE_KEY,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
       /*{
         item: Items.WEAPON_308,
         weight: 9,
@@ -3253,6 +3301,14 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 3,
+        },
+      },
+      {
+        item: Items.VEHICLE_KEY,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
         },
       },
     ],
