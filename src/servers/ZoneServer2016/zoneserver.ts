@@ -6168,7 +6168,7 @@ export class ZoneServer2016 extends EventEmitter {
   }
 
   salvageItemPass(client: Client, item: BaseItem, count: number) {
-    if (!this.removeInventoryItem(client, item, item.stackCount)) return;
+    if (!this.removeInventoryItem(client.character, item, item.stackCount)) return;
 
     const multiplier =
     item.itemDefinitionId == Items.AMMO_12GA ||
