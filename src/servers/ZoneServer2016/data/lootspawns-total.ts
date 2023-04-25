@@ -640,14 +640,14 @@ import { Items } from "../models/enums";
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.BATTERY,
         weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.WEAPON_COMBATKNIFE,
         weight: 15,
