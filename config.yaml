@@ -2,7 +2,7 @@ server:
   welcomeMessage: "Bem vindos ao servidor TOTAL, divirtam-se!"
   adminMessage: "ADM TOTAL"
   proximityItemsDistance: 2
-  interactionDistance: 2
+  interactionDistance: 3
   charactersRenderDistance: 700
   tickRate: 4000
   worldRoutineRate: 30000
