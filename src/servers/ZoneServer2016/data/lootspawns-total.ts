@@ -14,7 +14,7 @@
 import { ContainerLootSpawner, LootSpawner } from "types/zoneserver";
 import { Items } from "../models/enums";
 
-/*const carparts = [
+  const carparts = [
   // NEED TO ADJUST THESE WEIGHTS
   {
     item: Items.BATTERY,
@@ -32,6 +32,7 @@ import { Items } from "../models/enums";
       max: 1,
     },
   },
+  /*
   {
     item: Items.HEADLIGHTS_OFFROADER,
     weight: 5,
@@ -95,10 +96,10 @@ import { Items } from "../models/enums";
       min: 1,
       max: 1,
     },
-  },
-];*/
+  },*/
+  ];
 
-export const lootTables: { [lootSpawner: string]: LootSpawner } = {
+  export const lootTables: { [lootSpawner: string]: LootSpawner } = {
   // #region AR15
   "ItemSpawner_Weapon_M16A4.adr": {
     spawnChance: 10,
@@ -759,14 +760,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 3,
         },
       },
-      /*{
+      {
         item: Items.SPARKPLUGS,
         weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.FIRST_AID,
         weight: 10,
@@ -1168,7 +1169,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.BATTERY,
         weight: 5,
         spawnCount: {
@@ -1183,7 +1184,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.WATER_EMPTY,
         weight: 10,
