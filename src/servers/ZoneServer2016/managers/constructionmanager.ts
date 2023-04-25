@@ -229,9 +229,11 @@ export class ConstructionManager {
   detectSpawnPointPlacement(
     itemDefinitionId: number,
     position: Float32Array,
+    client: Client,
     isInsidePermissionedFoundation: boolean
   ): boolean {
     if (!this.spawnPointBlockedPlacementRange) return false;
+    if (client.isAdmin) return false;
     let isInSpawnPoint = false;
     spawnLocations2.forEach((point: Float32Array) => {
       if (isPosInRadius(this.spawnPointBlockedPlacementRange, position, point))
@@ -250,9 +252,11 @@ export class ConstructionManager {
   detectVehicleSpawnPointPlacement(
     itemDefinitionId: number,
     position: Float32Array,
+    client: Client,
     isInsidePermissionedFoundation: boolean
   ): boolean {
     if (!this.vehicleSpawnPointBlockedPlacementRange) return false;
+    if (client.isAdmin) return false;
     let isInVehicleSpawnPoint = false;
     Z1_vehicles.forEach((vehicleSpawn: any) => {
       if (
@@ -532,6 +536,7 @@ export class ConstructionManager {
     if (
       this.detectSpawnPointPlacement(
         itemDefinitionId,
+        client,
         position,
         isInsidePermissionedFoundation
       )
@@ -548,6 +553,7 @@ export class ConstructionManager {
       this.detectVehicleSpawnPointPlacement(
         itemDefinitionId,
         position,
+        client,
         isInsidePermissionedFoundation
       )
     ) {
