@@ -536,8 +536,8 @@ export class ConstructionManager {
     if (
       this.detectSpawnPointPlacement(
         itemDefinitionId,
-        client,
         position,
+        client,
         isInsidePermissionedFoundation
       )
     ) {
