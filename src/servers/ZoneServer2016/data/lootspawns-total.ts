@@ -642,7 +642,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.BATTERY,
-        weight: 10,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
@@ -770,7 +770,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.SPARKPLUGS,
-        weight: 10,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1387,7 +1387,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.VEHICLE_KEY,
-        weight: 25,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1452,7 +1452,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.VEHICLE_KEY,
-        weight: 10,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2192,7 +2192,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.VEHICLE_KEY,
-        weight: 10,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2230,7 +2230,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.VEHICLE_KEY,
-        weight: 10,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
@@ -3156,7 +3156,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.VEHICLE_KEY,
-        weight: 10,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
