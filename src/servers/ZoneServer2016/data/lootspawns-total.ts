@@ -696,7 +696,7 @@ import { Items } from "../models/enums";
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.WATER_EMPTY,
         weight: 25,
         spawnCount: {
@@ -711,7 +711,7 @@ import { Items } from "../models/enums";
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.AMMO_45,
         weight: 15,
@@ -993,14 +993,14 @@ import { Items } from "../models/enums";
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.WATER_EMPTY,
         weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.WOOD_PLANK,
         weight: 50,
@@ -1281,14 +1281,14 @@ import { Items } from "../models/enums";
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.WATER_EMPTY,
         weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.GROUND_TILLER,
         weight: 20,
@@ -1345,7 +1345,7 @@ import { Items } from "../models/enums";
           max: 2,
         },
       },
-      /*{
+      {
         item: Items.SHIRT_DEFAULT,
         weight: 100,
         spawnCount: {
@@ -1376,7 +1376,7 @@ import { Items } from "../models/enums";
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.CLOTH,
         weight: 50,
@@ -2992,14 +2992,14 @@ export const containerLootSpawners: {
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.WATER_STAGNANT,
-        weight: 20,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.MEAT_ROTTEN,
         weight: 25,
@@ -3240,7 +3240,7 @@ export const containerLootSpawners: {
           min: 1,
           max: 1,
         },
-      },
+      },*/
       {
         item: Items.WATER_PURE,
         weight: 10,
@@ -3248,7 +3248,7 @@ export const containerLootSpawners: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
     ],
   },
   Crate: {
