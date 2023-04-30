@@ -696,7 +696,7 @@ import { Items } from "../models/enums";
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.WATER_EMPTY,
         weight: 25,
         spawnCount: {
@@ -711,7 +711,7 @@ import { Items } from "../models/enums";
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.AMMO_45,
         weight: 15,
