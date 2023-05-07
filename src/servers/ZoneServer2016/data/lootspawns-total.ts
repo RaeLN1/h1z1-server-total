@@ -129,8 +129,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_223,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 5,
+          min: 3,
+          max: 6,
         },
       },
     ],
@@ -142,8 +142,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_45,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 4,
+          min: 2,
+          max: 6,
         },
       },
     ],
@@ -171,8 +171,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_12GA,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 5,
         },
       },
     ],
@@ -390,8 +390,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_45,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 5,
+          min: 2,
+          max: 6,
         },
       },
     ],
@@ -420,7 +420,7 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 2,
-          max: 4,
+          max: 5,
         },
       },
     ],
@@ -698,7 +698,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 25,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -706,7 +706,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_PURE,
-        weight: 15,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -716,16 +716,16 @@ import { Items } from "../models/enums";
         item: Items.AMMO_45,
         weight: 15,
         spawnCount: {
-          min: 1,
-          max: 4,
+          min: 2,
+          max: 5,
         },
       },
       {
         item: Items.AMMO_9MM,
         weight: 15,
         spawnCount: {
-          min: 1,
-          max: 4,
+          min: 2,
+          max: 6,
         },
       },
       {
@@ -748,8 +748,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_223,
         weight: 5,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 3,
+          max: 6,
         },
       },
       {
@@ -757,15 +757,15 @@ import { Items } from "../models/enums";
         weight: 5,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 4,
         },
       },
       {
         item: Items.AMMO_12GA,
         weight: 5,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 5,
         },
       },
       {
@@ -868,16 +868,16 @@ import { Items } from "../models/enums";
         item: Items.AMMO_223,
         weight: 50,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 3,
+          max: 5,
         },
       },
       {
         item: Items.AMMO_762,
         weight: 50,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 4,
         },
       },
       {
@@ -885,15 +885,15 @@ import { Items } from "../models/enums";
         weight: 50,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 4,
         },
       },
       {
         item: Items.AMMO_12GA,
         weight: 50,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 5,
         },
       },
       /*{
@@ -1075,7 +1075,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 15,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1083,7 +1083,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_PURE,
-        weight: 15,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1195,7 +1195,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 10,
+        weight: 12,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1203,7 +1203,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_STAGNANT,
-        weight: 10,
+        weight: 12,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1572,16 +1572,16 @@ import { Items } from "../models/enums";
         item: Items.AMMO_45,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 4,
+          min: 2,
+          max: 5,
         },
       },
       {
         item: Items.AMMO_9MM,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 4,
+          min: 2,
+          max: 6,
         },
       },
       {
@@ -1604,16 +1604,16 @@ import { Items } from "../models/enums";
         item: Items.AMMO_223,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 4,
         },
       },
       {
         item: Items.AMMO_762,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 4,
         },
       },
       {
@@ -1621,15 +1621,15 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 4,
         },
       },
       {
         item: Items.AMMO_12GA,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 5,
         },
       },
       {
@@ -1731,31 +1731,31 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 4,
         },
       },
       {
         item: Items.AMMO_12GA,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 5,
         },
       },
       {
         item: Items.AMMO_762,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 4,
         },
       },
       {
         item: Items.AMMO_223,
         weight: 100,
         spawnCount: {
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 4,
         },
       },
       /*{
@@ -2118,7 +2118,7 @@ export const containerLootSpawners: {
         item: Items.AMMO_223,
         weight: 20,
         spawnCount: {
-          min: 2,
+          min: 4,
           max: 10,
         },
       },
@@ -2126,8 +2126,8 @@ export const containerLootSpawners: {
         item: Items.AMMO_762,
         weight: 20,
         spawnCount: {
-          min: 2,
-          max: 10,
+          min: 4,
+          max: 12,
         },
       },
       {
@@ -2135,15 +2135,15 @@ export const containerLootSpawners: {
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 4,
+          max: 5,
         },
       },
       {
         item: Items.AMMO_12GA,
         weight: 20,
         spawnCount: {
-          min: 1,
-          max: 4,
+          min: 2,
+          max: 5,
         },
       },
     ],
@@ -2248,8 +2248,8 @@ export const containerLootSpawners: {
         item: Items.AMMO_45,
         weight: 15,
         spawnCount: {
-          min: 1,
-          max: 2,
+          min: 2,
+          max: 6,
         },
       },
       /*{
@@ -2270,8 +2270,8 @@ export const containerLootSpawners: {
         item: Items.AMMO_9MM,
         weight: 20,
         spawnCount: {
-          min: 1,
-          max: 1,
+          min: 2,
+          max: 6,
         },
       },
       {
@@ -2808,7 +2808,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 25,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2878,7 +2878,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 25,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
