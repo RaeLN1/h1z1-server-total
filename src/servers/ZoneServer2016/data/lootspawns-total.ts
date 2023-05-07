@@ -1075,7 +1075,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 10,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1083,7 +1083,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_PURE,
-        weight: 10,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1281,14 +1281,14 @@ import { Items } from "../models/enums";
           max: 1,
         },
       },
-      /*{
+      {
         item: Items.WATER_EMPTY,
         weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
         },
-      },*/
+      },
       {
         item: Items.GROUND_TILLER,
         weight: 20,
