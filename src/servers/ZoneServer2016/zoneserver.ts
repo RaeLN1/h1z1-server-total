@@ -2065,6 +2065,8 @@ export class ZoneServer2016 extends EventEmitter {
     if (!(await this.hookManager.checkAsyncHook("OnPlayerRespawn", client)))
       return;
 
+    if (!client.character.isRespawning) return;
+
     if (client.vehicle.mountedVehicle) {
       this.dismountVehicle(client);
     }
@@ -3471,9 +3473,11 @@ export class ZoneServer2016 extends EventEmitter {
     };
     if (timestamp) {
       object.expirationDate = timestamp;
+    } else {
+      // Do not send temp bans to loginserver
+      this.sendBanToLogin(client.loginSessionId, true);
     }
     this._db?.collection(DB_COLLECTIONS.BANNED).insertOne(object);
-    this.sendBanToLogin(client.loginSessionId, true);
     if (banType === "normal") {
       if (timestamp) {
         this.sendAlert(
@@ -5340,7 +5344,11 @@ export class ZoneServer2016 extends EventEmitter {
       this.sendAlert(client, "All planes are busy.");
       return;
     }
-    if (_.size(this._clients) < 20 && !this._soloMode) {
+
+    if (
+      _.size(this._clients) < this.worldObjectManager.minAirdropSurvivors &&
+      !this._soloMode
+    ) {
       this.sendAlert(client, "No planes ready. Not enough survivors.");
       return;
     }
