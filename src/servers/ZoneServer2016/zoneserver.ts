@@ -1992,7 +1992,7 @@ export class ZoneServer2016 extends EventEmitter {
           this.constructionManager.checkConstructionDamage(
             this,
             constructionObject.characterId,
-            100000,
+            50000,
             this._constructionSimple,
             position,
             constructionObject.fixedPosition
@@ -2030,7 +2030,7 @@ export class ZoneServer2016 extends EventEmitter {
           this.constructionManager.checkConstructionDamage(
             this,
             constructionObject.characterId,
-            100000,
+            50000,
             this._constructionDoors,
             position,
             constructionObject.fixedPosition
@@ -2058,7 +2058,7 @@ export class ZoneServer2016 extends EventEmitter {
           this.constructionManager.checkConstructionDamage(
             this,
             constructionObject.characterId,
-            100000,
+            50000,
             this._constructionFoundations,
             position,
             constructionObject.state.position,
@@ -2083,7 +2083,7 @@ export class ZoneServer2016 extends EventEmitter {
         this.constructionManager.checkConstructionDamage(
           this,
           constructionObject.characterId,
-          100000,
+          50000,
           this._lootableConstruction,
           position,
           constructionObject.state.position,
@@ -2100,7 +2100,7 @@ export class ZoneServer2016 extends EventEmitter {
         this.constructionManager.checkConstructionDamage(
           this,
           constructionObject.characterId,
-          100000,
+          50000,
           this._worldLootableConstruction,
           position,
           constructionObject.state.position,
@@ -2117,7 +2117,7 @@ export class ZoneServer2016 extends EventEmitter {
         this.constructionManager.checkConstructionDamage(
           this,
           constructionObject.characterId,
-          100000,
+          50000,
           this._worldSimpleConstruction,
           position,
           constructionObject.state.position,
@@ -5474,8 +5474,7 @@ export class ZoneServer2016 extends EventEmitter {
       }
     }
 
-    if (client.currentPOI || blockedArea)
-    if (client.isAdmin) return false;
+    if (client.currentPOI || blockedArea) {
       this.sendAlert(client, "You are too close to the restricted area.");
       return;
     }
