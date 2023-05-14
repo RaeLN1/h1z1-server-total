@@ -18,8 +18,10 @@ export const profileStatsPackets: PacketStructures = [
     "ProfileStats.GetPlayerProfileStats",
     0x940000,
     {
-      fields: [{ name: "characterId", type: "uint64string", defaultValue: "0" }]
-    }
+      fields: [
+        { name: "characterId", type: "uint64string", defaultValue: "0" },
+      ],
+    },
   ],
   ["ProfileStats.GetZonePlayerProfileStats", 0x940100, {}],
   ["ProfileStats.PlayerProfileStats", 0x940200, {}],
@@ -29,5 +31,5 @@ export const profileStatsPackets: PacketStructures = [
   ["ProfileStats.GetLeaderboard", 0x940600, {}],
   ["ProfileStats.Leaderboard", 0x940700, {}],
   ["ProfileStats.GetZoneCharacterStats", 0x940800, {}],
-  ["ProfileStats.ZoneCharacterStats", 0x940900, {}]
+  ["ProfileStats.ZoneCharacterStats", 0x940900, {}],
 ];
