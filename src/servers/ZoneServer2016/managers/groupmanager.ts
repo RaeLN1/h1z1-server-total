@@ -19,7 +19,7 @@ import { ZoneServer2016 } from "../zoneserver";
 
 enum GroupErrors {
   INVALID = "GroupIsInvalid",
-  INVALID_MEMBER = "GroupMemberIsInvalid",
+  INVALID_MEMBER = "GroupMemberIsInvalid"
 }
 
 export class GroupManager {
@@ -148,7 +148,7 @@ export class GroupManager {
     this.groups[groupId] = {
       groupId: groupId,
       leader: leader.character.characterId,
-      members: [leader.character.characterId],
+      members: [leader.character.characterId]
     };
     leader.character.groupId = groupId;
 
@@ -219,16 +219,16 @@ export class GroupManager {
           characterId: source.character.characterId,
           identity: {
             characterFirstName: source.character.name,
-            characterName: source.character.name,
-          },
+            characterName: source.character.name
+          }
         },
         targetCharacter: {
           characterId: target.character.characterId,
           identity: {
-            characterName: target.character.name,
-          },
-        },
-      },
+            characterName: target.character.name
+          }
+        }
+      }
     });
   }
 
@@ -385,7 +385,7 @@ export class GroupManager {
   handleGroupView(server: ZoneServer2016, client: Client, group: Group) {
     server.sendChatText(client, "Open console to view group.");
     server.sendData(client, "H1emu.PrintToConsole", {
-      message: `----------Group Info----------\n| Member Count: ${group.members.length} |`,
+      message: `----------Group Info----------\n| Member Count: ${group.members.length} |`
     });
     server.sendData(client, "H1emu.PrintToConsole", {
       message: `| Members |\n- ${group.members
@@ -398,7 +398,7 @@ export class GroupManager {
             ? `*${client.character.name}`
             : client.character.name;
         })
-        .join("\n- ")}`,
+        .join("\n- ")}`
     });
   }
 
