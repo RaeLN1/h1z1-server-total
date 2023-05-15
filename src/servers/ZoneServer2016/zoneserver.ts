@@ -1131,8 +1131,8 @@ export class ZoneServer2016 extends EventEmitter {
       client.character.isRespawning ||
       !this.enableWorldSaves
     ) {
-      client.character.isRespawning = false;
-      await this.respawnPlayer(
+      client.character.isRespawning = true;
+      this.respawnPlayer(
         client,
         this._spawnGrid[randomIntFromInterval(0, 99)],
         false
@@ -2164,14 +2164,12 @@ export class ZoneServer2016 extends EventEmitter {
     }
   }
 
-  async respawnPlayer(
+  respawnPlayer(
     client: Client,
     cell: SpawnCell,
     clearEquipment: boolean = true
   ) {
     if (!this.hookManager.checkHook("OnPlayerRespawn", client)) return;
-    if (!(await this.hookManager.checkAsyncHook("OnPlayerRespawn", client)))
-      return;
 
     if (!client.character.isRespawning) return;
 
