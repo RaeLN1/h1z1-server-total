@@ -129,8 +129,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_223,
         weight: 100,
         spawnCount: {
-          min: 3,
-          max: 6,
+          min: 2,
+          max: 4,
         },
       },
     ],
@@ -143,7 +143,7 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 2,
-          max: 6,
+          max: 4,
         },
       },
     ],
@@ -391,7 +391,7 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 2,
-          max: 6,
+          max: 4,
         },
       },
     ],
@@ -698,7 +698,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 30,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -717,7 +717,7 @@ import { Items } from "../models/enums";
         weight: 15,
         spawnCount: {
           min: 2,
-          max: 5,
+          max: 4,
         },
       },
       {
@@ -748,8 +748,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_223,
         weight: 5,
         spawnCount: {
-          min: 3,
-          max: 6,
+          min: 2,
+          max: 4,
         },
       },
       {
@@ -868,8 +868,8 @@ import { Items } from "../models/enums";
         item: Items.AMMO_223,
         weight: 50,
         spawnCount: {
-          min: 3,
-          max: 5,
+          min: 2,
+          max: 4,
         },
       },
       {
@@ -1014,7 +1014,7 @@ import { Items } from "../models/enums";
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 2,
         },
       },
       {
@@ -1022,7 +1022,7 @@ import { Items } from "../models/enums";
         weight: 40,
         spawnCount: {
           min: 1,
-          max: 4,
+          max: 3,
         },
       },
       {
@@ -1147,7 +1147,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.CANNED_FOOD01,
-        weight: 20,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1195,7 +1195,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 12,
+        weight: 8,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1203,7 +1203,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_STAGNANT,
-        weight: 12,
+        weight: 8,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1211,7 +1211,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.CANNED_FOOD01,
-        weight: 20,
+        weight: 5,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1239,14 +1239,6 @@ import { Items } from "../models/enums";
         spawnCount: {
           min: 1,
           max: 1,
-        },
-      },
-      {
-        item: Items.SUGAR,
-        weight: 25,
-        spawnCount: {
-          min: 1,
-          max: 3,
         },
       },
       {
@@ -1283,7 +1275,7 @@ import { Items } from "../models/enums";
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 15,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1573,7 +1565,7 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 2,
-          max: 5,
+          max: 4,
         },
       },
       {
@@ -1810,7 +1802,7 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 2,
         },
       },
       {
@@ -1818,7 +1810,7 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 1,
-          max: 4,
+          max: 2,
         },
       },
       {
@@ -1981,7 +1973,7 @@ export const containerLootSpawners: {
         weight: 33,
         spawnCount: {
           min: 1,
-          max: 2,
+          max: 1,
         },
       },
       {
@@ -1989,7 +1981,7 @@ export const containerLootSpawners: {
         weight: 33,
         spawnCount: {
           min: 1,
-          max: 2,
+          max: 1,
         },
       },
       {
@@ -2011,7 +2003,7 @@ export const containerLootSpawners: {
         weight: 33,
         spawnCount: {
           min: 1,
-          max: 2,
+          max: 1,
         },
       },
       {
@@ -2019,7 +2011,7 @@ export const containerLootSpawners: {
         weight: 33,
         spawnCount: {
           min: 1,
-          max: 2,
+          max: 1,
         },
       },
       {
@@ -2041,7 +2033,7 @@ export const containerLootSpawners: {
         weight: 33,
         spawnCount: {
           min: 1,
-          max: 2,
+          max: 1,
         },
       },
       {
@@ -2049,7 +2041,7 @@ export const containerLootSpawners: {
         weight: 33,
         spawnCount: {
           min: 1,
-          max: 2,
+          max: 1,
         },
       },
       {
@@ -2249,7 +2241,7 @@ export const containerLootSpawners: {
         weight: 15,
         spawnCount: {
           min: 2,
-          max: 6,
+          max: 4,
         },
       },
       /*{
@@ -2298,7 +2290,7 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.SUGAR,
-        weight: 25,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 2,
@@ -2417,7 +2409,7 @@ export const containerLootSpawners: {
         weight: 37,
         spawnCount: {
           min: 1,
-          max: 2,
+          max: 1,
         },
       },
       {
@@ -2795,7 +2787,7 @@ export const containerLootSpawners: {
         weight: 25,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 2,
         },
       },
       {
@@ -2808,7 +2800,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 30,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2865,7 +2857,7 @@ export const containerLootSpawners: {
         weight: 25,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 2,
         },
       },
       {
@@ -2878,7 +2870,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 30,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 1,
@@ -3214,7 +3206,7 @@ export const containerLootSpawners: {
         weight: 25,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 2,
         },
       },
       {
@@ -3300,7 +3292,7 @@ export const containerLootSpawners: {
         weight: 25,
         spawnCount: {
           min: 1,
-          max: 3,
+          max: 2,
         },
       },
       {
