@@ -2776,7 +2776,7 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.FERTILIZER,
-        weight: 20,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2846,7 +2846,7 @@ export const containerLootSpawners: {
       },*/
       {
         item: Items.FERTILIZER,
-        weight: 20,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -3195,7 +3195,7 @@ export const containerLootSpawners: {
     items: [
       {
         item: Items.FERTILIZER,
-        weight: 20,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
