@@ -725,7 +725,7 @@ import { Items } from "../models/enums";
         weight: 15,
         spawnCount: {
           min: 2,
-          max: 6,
+          max: 4,
         },
       },
       {
@@ -1573,7 +1573,7 @@ import { Items } from "../models/enums";
         weight: 100,
         spawnCount: {
           min: 2,
-          max: 6,
+          max: 4,
         },
       },
       {
@@ -2263,7 +2263,7 @@ export const containerLootSpawners: {
         weight: 20,
         spawnCount: {
           min: 2,
-          max: 6,
+          max: 4,
         },
       },
       {
