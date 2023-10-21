@@ -275,7 +275,6 @@ export class ConstructionManager {
     itemDefinitionId: number,
     client: Client,
     position: Float32Array,
-    client: Client,
     isInsidePermissionedFoundation: boolean
   ): boolean {
     if (client.isDebugMode) return false;

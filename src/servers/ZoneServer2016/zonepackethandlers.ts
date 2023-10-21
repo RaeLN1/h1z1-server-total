@@ -282,7 +282,7 @@ export class ZonePacketHandlers {
       {}
     ); // Required for WaitForWorldReady
   }
-  ClientFinishedLoading(
+  async ClientFinishedLoading(
     server: ZoneServer2016,
     client: Client,
     packet: ReceivedPacket<object>

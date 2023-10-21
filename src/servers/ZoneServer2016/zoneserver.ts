@@ -1674,7 +1674,7 @@ export class ZoneServer2016 extends EventEmitter {
     if (client.forceFpScope !== null && client.forceFpScope !== undefined) {
       this.sendRawData(client, client.forceFpScope ? this.weaponDefinitionsCacheFP : this.weaponDefinitionsCacheTP);
     } else {
-      this.sendRawData(client, this.weaponDefinitionsCache);
+//      this.sendRawData(client, this.weaponDefinitionsCache);
     }
   }
 
@@ -6606,57 +6606,6 @@ export class ZoneServer2016 extends EventEmitter {
     client.character.lootItem(
       this,
       this.generateItem(Items.GUNPOWDER_REFINED, count)
-    );
-  }
-
-  repairOption(
-    client: Client,
-    item: BaseItem,
-    repairItem: BaseItem,
-    animationId: number
-  ) {
-    const durability = repairItem.currentDurability;
-    if (durability >= 2000) {
-      // todo: get max durability from somewhere, do not hard-code
-      this.sendChatText(client, "This weapon is already at max durability.");
-      return;
-    }
-
-    switch (repairItem.itemDefinitionId) {
-      case Items.WEAPON_NAGAFENS_RAGE:
-      case Items.WEAPON_REAPER:
-      case Items.WEAPON_BLAZE:
-      case Items.WEAPON_FROSTBITE:
-      case Items.WEAPON_PURGE:
-        this.sendChatText(client, "This weapon cannot be repaired.");
-        return;
-    }
-
-    const itemDef = this.getItemDefinition(item.itemDefinitionId);
-    if (!itemDef) return;
-    const nameId = itemDef.NAME_ID;
-
-    this.utilizeHudTimer(client, nameId, 5000, animationId, () => {
-      this.repairOptionPass(client, item, repairItem, durability);
-    });
-  }
-
-  repairOptionPass(
-    client: Client,
-    item: BaseItem,
-    repairItem: BaseItem,
-    durability: number
-  ) {
-    const diff = 2000 - durability,
-      isGunKit = item.itemDefinitionId == Items.GUN_REPAIR_KIT,
-      repairAmount = diff < 500 ? diff : 500;
-
-    if (!this.removeInventoryItem(client.character, item)) return;
-    client.character.lootItem(this, this.generateItem(Items.ALLOY_LEAD, count));
-    client.character.lootItem(this, this.generateItem(Items.SHARD_BRASS, 1));
-    client.character.lootItem(
-      this,
-      this.generateItem(Items.GUNPOWDER_REFINED, 1)
     );
   }
 
