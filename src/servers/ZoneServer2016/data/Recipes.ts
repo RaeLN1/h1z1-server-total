@@ -1450,7 +1450,17 @@ export const recipes: { [recipeId: number]: Recipe } = {
     ]
   },
 
-  // TODO GUN PARTS
+  // probably subject to change in the future
+  [Items.GUN_PART]: {
+    filterId: FilterIds.WEAPONS,
+    bundleCount: 4,
+    components: [
+      {
+        itemDefinitionId: Items.WEAPON_AR15,
+        requiredAmount: 1
+      }
+    ]
+  },
 
   [Items.REPAIR_KIT_GUN]: {
     filterId: FilterIds.WEAPONS,
@@ -1830,10 +1840,11 @@ export const recipes: { [recipeId: number]: Recipe } = {
   },
   [Items.SHARD_PLASTIC]: {
     filterId: FilterIds.COMPONENT,
+    bundleCount: 5,
     components: [
       {
         itemDefinitionId: Items.WATER_EMPTY,
-        requiredAmount: 3
+        requiredAmount: 1
       }
     ]
   },
@@ -2534,6 +2545,26 @@ export const recipes: { [recipeId: number]: Recipe } = {
       {
         itemDefinitionId: Items.WHEAT,
         requiredAmount: 1
+      }
+    ]
+  },
+
+  /* CUSTOM */
+
+  [Items.WEAPON_REPAIR_KIT]: {
+    filterId: FilterIds.SURVIVAL,
+    components: [
+      {
+        itemDefinitionId: Items.DUCT_TAPE,
+        requiredAmount: 2
+      },
+      {
+        itemDefinitionId: Items.TWINE,
+        requiredAmount: 2
+      },
+      {
+        itemDefinitionId: Items.SHARD_METAL,
+        requiredAmount: 8
       }
     ]
   }

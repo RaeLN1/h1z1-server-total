@@ -23,7 +23,8 @@ export class ExplosiveEntity extends BaseLightweightCharacter {
   mineTimer?: NodeJS.Timeout;
   npcRenderDistance = 300;
   detonated = false;
-  triggerExplosionShots = Math.floor(Math.random() * 3) + 2; // random number 2-4 neccesary shots
+  triggerExplosionShots =
+    this.isLandmine() || this.isIED() ? 1 : Math.floor(Math.random() * 2) + 1; // random number 1-2 neccesary shots if fuel
   constructor(
     characterId: string,
     transientId: number,
@@ -81,13 +82,15 @@ export class ExplosiveEntity extends BaseLightweightCharacter {
       ? server.explosionDamage(
           this.state.position,
           this.characterId,
-          server.getItemDefinition(this.itemDefinitionId).NAME.toLowerCase(),
+          server.getItemDefinition(this.itemDefinitionId)?.NAME ??
+            "".toLowerCase(),
           client
         )
       : server.explosionDamage(
           this.state.position,
           this.characterId,
-          server.getItemDefinition(this.itemDefinitionId).NAME.toLowerCase()
+          server.getItemDefinition(this.itemDefinitionId)?.NAME ??
+            "".toLowerCase()
         );
   }
 
@@ -136,7 +139,7 @@ export class ExplosiveEntity extends BaseLightweightCharacter {
     this.detonate(server, server.getClientByCharId(damageInfo.entity));
   }
 
-  destroy(server: ZoneServer2016) {
+  destroy(server: ZoneServer2016): boolean {
     return server.deleteEntity(this.characterId, server._explosives);
   }
 }
