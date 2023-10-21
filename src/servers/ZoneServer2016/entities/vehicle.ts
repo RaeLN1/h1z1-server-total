@@ -11,26 +11,30 @@
 //   Based on https://github.com/psemu/soe-network
 // ======================================================================
 
-import { createPositionUpdate } from "../../../utils/utils";
+import { createPositionUpdate, eul2quat } from "../../../utils/utils";
 import {
   Items,
   LoadoutIds,
   ResourceIds,
   ResourceTypes,
   VehicleIds,
-  StringIds
+  StringIds,
+  Effects
 } from "../models/enums";
 import { ZoneClient2016 } from "../classes/zoneclient";
 import { ZoneServer2016 } from "../zoneserver";
 import { DamageInfo } from "types/zoneserver";
 import { BaseLootableEntity } from "./baselootableentity";
 import { vehicleDefaultLoadouts } from "../data/loadouts";
-import { LoadoutItem } from "../classes/loadoutItem";
 import { BaseItem } from "../classes/baseItem";
 import { LOADOUT_CONTAINER_ID } from "../../../utils/constants";
 import { Character2016 } from "./character";
+import {
+  LightweightToFullNpc,
+  LightweightToFullVehicle
+} from "types/zone2016packets";
 
-function getActorModelId(vehicleId: number) {
+function getActorModelId(vehicleId: VehicleIds) {
   switch (vehicleId) {
     case VehicleIds.OFFROADER:
       return 7225;
@@ -64,7 +68,7 @@ function getVehicleName(ModelId: number) {
   }
 }
 
-function getVehicleLoadoutId(vehicleId: number) {
+function getVehicleLoadoutId(vehicleId: VehicleIds) {
   switch (vehicleId) {
     case VehicleIds.OFFROADER:
       return LoadoutIds.VEHICLE_OFFROADER;
@@ -81,7 +85,7 @@ function getVehicleLoadoutId(vehicleId: number) {
   }
 }
 
-function getDefaultLoadout(loadoutId: number) {
+function getDefaultLoadout(loadoutId: LoadoutIds) {
   switch (loadoutId) {
     case LoadoutIds.VEHICLE_OFFROADER:
       return vehicleDefaultLoadouts.offroader;
@@ -96,9 +100,24 @@ function getDefaultLoadout(loadoutId: number) {
   }
 }
 
+function getHeadlightEffect(vehicleId: VehicleIds) {
+  switch (vehicleId) {
+    case VehicleIds.OFFROADER:
+      return Effects.VEH_Headlight_OffRoader_wShadows;
+    case VehicleIds.PICKUP:
+      return Effects.VEH_Headlight_PickupTruck_wShadows;
+    case VehicleIds.POLICECAR:
+      return Effects.VEH_Headlight_PoliceCar_wShadows;
+    case VehicleIds.ATV:
+      return Effects.VEH_Headlight_ATV_wShadows;
+    default:
+      return Effects.VEH_Headlight_OffRoader_wShadows;
+  }
+}
+
 export class Vehicle2016 extends BaseLootableEntity {
   isManaged: boolean = false;
-  manager?: any;
+  manager?: ZoneClient2016;
   destroyedEffect: number = 0;
   destroyedModel: number = 0;
   minorDamageEffect: number = 0;
@@ -106,7 +125,7 @@ export class Vehicle2016 extends BaseLootableEntity {
   criticalDamageEffect: number = 0;
   supercriticalDamageEffect: number = 0;
   engineOn: boolean = false;
-  isLocked: number = 0;
+  isLocked: boolean = false;
   positionUpdate: any /*positionUpdate*/;
   engineRPM: number = 0;
   fuelUpdater: any;
@@ -238,7 +257,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       const seat = this.seats[seatId],
         passenger = seat ? server._characters[seat] : undefined;
       if (!this.seats[seatId] || !passenger?.isAlive) {
-        return seatId;
+        return Number(seatId);
       }
     }
     return -1;
@@ -246,9 +265,10 @@ export class Vehicle2016 extends BaseLootableEntity {
   getCharacterSeat(characterId: string) {
     for (const seatId in this.seats) {
       if (this.seats[seatId] === characterId) {
-        return seatId;
+        return Number(seatId);
       }
     }
+    return -1;
   }
 
   getPassengerList(): string[] {
@@ -283,7 +303,7 @@ export class Vehicle2016 extends BaseLootableEntity {
     };
   }
 
-  pGetFull(server: ZoneServer2016) {
+  pGetFull(server: ZoneServer2016): LightweightToFullNpc {
     return {
       transientId: this.transientId,
       attachmentData: this.pGetAttachmentSlots(),
@@ -296,9 +316,9 @@ export class Vehicle2016 extends BaseLootableEntity {
       targetData: {},
       unknownArray1: [],
       unknownArray2: [],
-      unknownArray3: { data: {} },
-      unknownArray4: { data: {} },
-      unknownArray5: { data: {} },
+      unknownArray3: { data: [] },
+      unknownArray4: {},
+      unknownArray5: { data: [] },
       remoteWeapons: {
         isVehicle: true,
         data: {}
@@ -310,34 +330,16 @@ export class Vehicle2016 extends BaseLootableEntity {
     };
   }
 
-  pGetFullVehicle(server: ZoneServer2016) {
+  pGetFullVehicle(server: ZoneServer2016): LightweightToFullVehicle {
     return {
       npcData: {
         ...this.pGetFull(server)
       },
-      positionUpdate: {
-        ...this.positionUpdate,
-        sequenceTime: server.getGameTime(),
-        position: this.state.position // trying to fix invisible characters/vehicles until they move
-      },
       unknownArray1: [],
       unknownArray2: [],
+      passengers: this.pGetPassengers(server),
       unknownArray3: [],
-      unknownArray4: [],
-      unknownArray5: [
-        {
-          unknownData1: {
-            unknownData1: {}
-          }
-        }
-      ],
-      unknownArray6: [],
-      unknownArray7: [],
-      unknownArray8: [
-        {
-          unknownArray1: []
-        }
-      ]
+      unknownArray4: []
     };
   }
 
@@ -412,6 +414,14 @@ export class Vehicle2016 extends BaseLootableEntity {
       default:
         return 0;
     }
+  }
+
+  handleVehicleLock(server: ZoneServer2016, accessType: boolean) {
+    if (!accessType) {
+      this.unlockVehicle(server);
+      return;
+    }
+    this.lockVehicle(server);
   }
 
   startDamageDelay(server: ZoneServer2016) {
@@ -565,11 +575,82 @@ export class Vehicle2016 extends BaseLootableEntity {
     this.engineOn = false;
   }
 
-  hasRequiredEngineParts(): boolean {
-    return (
-      !!this.getLoadoutItemById(Items.BATTERY) &&
-      !!this.getLoadoutItemById(Items.SPARKPLUGS)
+  getHeadlightState() {
+    const headlightType = getHeadlightEffect(this.vehicleId),
+      index = this.effectTags.indexOf(headlightType);
+
+    return !(index <= -1);
+  }
+
+  toggleHeadlights(server: ZoneServer2016, client?: ZoneClient2016) {
+    const headlightType = getHeadlightEffect(this.vehicleId),
+      index = this.effectTags.indexOf(headlightType);
+
+    if (index <= -1) {
+      if (!this.hasBattery()) {
+        if (client) {
+          server.sendChatText(client, "[ERROR] Vehicle missing battery.");
+        }
+        return;
+      }
+      if (!this.hasHeadlights()) {
+        if (client) {
+          server.sendChatText(client, "[ERROR] Vehicle missing headlights.");
+        }
+        return;
+      }
+      server.sendDataToAllWithSpawnedEntity(
+        server._vehicles,
+        this.characterId,
+        "Character.AddEffectTagCompositeEffect",
+        {
+          characterId: this.characterId,
+          effectId: headlightType,
+          unknownDword1: headlightType,
+          unknownDword2: headlightType
+        }
+      );
+      this.effectTags.push(headlightType);
+      return;
+    }
+
+    server.sendDataToAllWithSpawnedEntity(
+      server._vehicles,
+      this.characterId,
+      "Character.RemoveEffectTagCompositeEffect",
+      {
+        characterId: this.characterId,
+        effectId: headlightType,
+        newEffectId: 0
+      }
     );
+    this.effectTags.splice(index, 1);
+  }
+
+  hasTurbo(): boolean {
+    return (
+      !!this.getLoadoutItemById(Items.TURBO_OFFROADER) ||
+      !!this.getLoadoutItemById(Items.TURBO_PICKUP) ||
+      !!this.getLoadoutItemById(Items.TURBO_POLICE) ||
+      !!this.getLoadoutItemById(Items.TURBO_ATV)
+    );
+  }
+
+  hasHeadlights(): boolean {
+    return (
+      !!this.getLoadoutItemById(Items.HEADLIGHTS_OFFROADER) ||
+      !!this.getLoadoutItemById(Items.HEADLIGHTS_PICKUP) ||
+      !!this.getLoadoutItemById(Items.HEADLIGHTS_POLICE) ||
+      !!this.getLoadoutItemById(Items.HEADLIGHTS_ATV)
+    );
+  }
+
+  hasBattery(): boolean {
+    return !!this.getLoadoutItemById(Items.BATTERY);
+  }
+
+  hasRequiredEngineParts(): boolean {
+    return !!this.hasBattery() && !!this.getLoadoutItemById(Items.SPARKPLUGS);
   }
 
   hasVehicleKey(server: ZoneServer2016): boolean {
@@ -599,6 +680,13 @@ export class Vehicle2016 extends BaseLootableEntity {
 
     const driver = this.getDriver(server),
       client = server.getClientByCharId(driver?.characterId || "");
+
+    if (
+      this.getHeadlightState() &&
+      (!this.hasHeadlights() || !this.hasBattery())
+    ) {
+      this.toggleHeadlights(server);
+    }
 
     if (!this.hasRequiredEngineParts()) {
       if (this.engineOn) this.stopEngine(server);
@@ -636,7 +724,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       client = server.getClientByCharId(driver?.characterId || "");
     if (!client) return;
 
-    server.utilizeHudTimer(client, 0, 5000, () => {
+    server.utilizeHudTimer(client, 0, 5000, 0, () => {
       this.startEngine(server);
     });
   }
@@ -678,19 +766,68 @@ export class Vehicle2016 extends BaseLootableEntity {
     }, 3000);
   }
 
+  lockVehicle(server: ZoneServer2016) {
+    const driver = this.getDriver(server),
+      client = server.getClientByCharId(driver?.characterId || "");
+    if (!client) return;
+
+    server.sendData(client, "Vehicle.AccessType", {
+      vehicleGuid: this.characterId,
+      accessType: 2
+    });
+    this.isLocked = true;
+  }
+
+  unlockVehicle(server: ZoneServer2016) {
+    const driver = this.getDriver(server),
+      client = server.getClientByCharId(driver?.characterId || "");
+    if (!client) return;
+
+    server.sendData(client, "Vehicle.AccessType", {
+      vehicleGuid: this.characterId,
+      accessType: 0
+    });
+    this.isLocked = false;
+  }
+
   pGetLoadoutSlots() {
     return {
       characterId: this.characterId,
       loadoutId: this.loadoutId,
       loadoutData: {
-        loadoutSlots: Object.values(this.getLoadoutSlots()).map(
-          (slotId: any) => {
-            return this.pGetLoadoutSlot(slotId);
-          }
-        )
+        loadoutSlots: Object.values(this.getLoadoutSlots()).map((slotId) => {
+          return this.pGetLoadoutSlot(slotId);
+        })
       },
       currentSlotId: this.currentLoadoutSlot
     };
+  }
+
+  isFlipped(): boolean {
+    return Math.abs(this.positionUpdate.sideTilt) > 2;
+  }
+
+  flipVehicle(server: ZoneServer2016) {
+    let c: ZoneClient2016 | undefined;
+    for (const a in server._clients) {
+      if (server._clients[a].managedObjects.includes(this.characterId)) {
+        c = server._clients[a];
+      }
+    }
+    if (c) {
+      this.positionUpdate.sideTilt = 0;
+      server.sendData(c, "ClientUpdate.UpdateManagedLocation", {
+        characterId: this.characterId,
+        position: this.state.position,
+        rotation: eul2quat(
+          new Float32Array([
+            this.positionUpdate.orientation,
+            this.positionUpdate.sideTilt,
+            this.positionUpdate.frontTilt
+          ])
+        )
+      });
+    }
   }
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -700,18 +837,32 @@ export class Vehicle2016 extends BaseLootableEntity {
     isInstant?: boolean
     /* eslint-enable @typescript-eslint/no-unused-vars */
   ) {
-    !client.vehicle.mountedVehicle
-      ? server.mountVehicle(client, this.characterId)
-      : server.dismountVehicle(client);
+    if (client.vehicle.mountedVehicle) {
+      server.dismountVehicle(client);
+      return;
+    }
+    if (this.isFlipped()) {
+      this.flipVehicle(server);
+      return;
+    }
+    server.mountVehicle(client, this.characterId);
   }
 
   OnInteractionString(server: ZoneServer2016, client: ZoneClient2016) {
-    if (!client.vehicle.mountedVehicle) {
+    if (client.vehicle.mountedVehicle) return;
+
+    if (this.isFlipped()) {
       server.sendData(client, "Command.InteractionString", {
         guid: this.characterId,
-        stringId: 15
+        stringId: StringIds.USE_TARGET
       });
+      return;
     }
+
+    server.sendData(client, "Command.InteractionString", {
+      guid: this.characterId,
+      stringId: StringIds.ENTER_VEHICLE
+    });
   }
 
   pGetItemData(server: ZoneServer2016, item: BaseItem, containerDefId: number) {
@@ -774,7 +925,7 @@ export class Vehicle2016 extends BaseLootableEntity {
         characterId: client.character.characterId,
         vehicleGuid: this.characterId, // vehicle guid
         seatId: seatId,
-        isDriver: seatId === "0" ? 1 : 0, //isDriver
+        isDriver: seatId == 0 ? 1 : 0, //isDriver
         identity: {}
       });
       delete this.droppedManagedClient;
@@ -822,7 +973,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       delete this.onReadyCallback;
     }
   }
-  destroy(server: ZoneServer2016, disableExplosion = false) {
+  destroy(server: ZoneServer2016, disableExplosion = false): boolean {
     if (!server._vehicles[this.characterId]) return false;
     this._resources[ResourceIds.CONDITION] = 0;
     for (const c in server._clients) {
@@ -848,10 +999,6 @@ export class Vehicle2016 extends BaseLootableEntity {
     }
     this.state.position[1] -= 0.4;
     // fix floating vehicle lootbags
-    Object.values(this._loadout).forEach((item: LoadoutItem) => {
-      delete this._loadout[item.slotId];
-    });
-    // delete vehicle loadout parts from lootbag
     server.worldObjectManager.createLootbag(server, this);
     return deleted;
   }

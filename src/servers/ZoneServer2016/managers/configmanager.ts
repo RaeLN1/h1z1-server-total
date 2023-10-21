@@ -16,6 +16,7 @@ import * as yaml from "js-yaml";
 import { Config } from "../models/config";
 import { ZoneServer2016 } from "../zoneserver";
 import * as path from "node:path";
+import { copyFile } from "../../../utils/utils";
 
 process.env.isBin &&
   require("js-yaml") &&
@@ -28,24 +29,6 @@ function fileExists(filePath: string): boolean {
   } catch (error) {
     return false;
   }
-}
-
-function copyFile(originalFilePath: string, newFilePath: string) {
-  const readStream = fs.createReadStream(originalFilePath),
-    writeStream = fs.createWriteStream(newFilePath);
-
-  readStream.pipe(writeStream);
-  writeStream.on("finish", () => {
-    console.log("Config copied successfully!");
-    readStream.close();
-    writeStream.close();
-  });
-
-  writeStream.on("error", (err) => {
-    console.error("Error copying config file:", err);
-    readStream.close();
-    writeStream.close();
-  });
 }
 
 export class ConfigManager {
@@ -91,7 +74,7 @@ export class ConfigManager {
     this.applyConfig(server);
   }
 
-  private loadYaml(path: string, relative = true): Config | undefined {
+  public loadYaml(path: string, relative = true): Config | undefined {
     return yaml.load(
       fs.readFileSync(`${relative ? __dirname : ""}${path}`, "utf8")
     ) as unknown as Config;
@@ -107,7 +90,8 @@ export class ConfigManager {
       worldobjects,
       speedtree,
       construction,
-      decay
+      decay,
+      smelting
     } = this.defaultConfig;
     return {
       ...this.defaultConfig,
@@ -139,6 +123,10 @@ export class ConfigManager {
       decay: {
         ...decay,
         ...config.decay
+      },
+      smelting: {
+        ...smelting,
+        ...config.smelting
       }
     };
   }
@@ -152,7 +140,10 @@ export class ConfigManager {
       tickRate,
       worldRoutineRate,
       welcomeMessage,
-      adminMessage
+      adminMessage,
+      enableLoginServerKickRequests,
+      rebootTime,
+      rebootWarnTime
     } = this.config.server;
     server.proximityItemsDistance = proximityItemsDistance;
     server.interactionDistance = interactionDistance;
@@ -161,6 +152,9 @@ export class ConfigManager {
     server.worldRoutineRate = worldRoutineRate;
     server.welcomeMessage = welcomeMessage;
     server.adminMessage = adminMessage;
+    server.enableLoginServerKickRequests = enableLoginServerKickRequests;
+    server.rebootTime = rebootTime;
+    server.rebootWarnTime = rebootWarnTime;
     //#endregion
 
     //#region fairplay
@@ -269,19 +263,26 @@ export class ConfigManager {
     const {
       decayTickInterval,
       constructionDamageTicks,
-      baseConstructionDamage,
+      ticksToFullDecay,
+      worldFreeplaceDecayMultiplier,
       vehicleDamageTicks,
+      vacantFoundationTicks,
       baseVehicleDamage,
       maxVehiclesPerArea,
-      vehicleDamageRange
+      vehicleDamageRange,
+      dailyRepairMaterials
     } = this.config.decay;
     server.decayManager.decayTickInterval = decayTickInterval;
     server.decayManager.constructionDamageTicks = constructionDamageTicks;
-    server.decayManager.baseConstructionDamage = baseConstructionDamage;
-    server.decayManager.vehicleDamageTicks = vehicleDamageTicks;
+    server.decayManager.ticksToFullDecay = ticksToFullDecay;
+    (server.decayManager.worldFreeplaceDecayMultiplier =
+      worldFreeplaceDecayMultiplier),
+      (server.decayManager.vehicleDamageTicks = vehicleDamageTicks);
+    server.decayManager.vacantFoundationTicks = vacantFoundationTicks;
     server.decayManager.baseVehicleDamage = baseVehicleDamage;
     server.decayManager.maxVehiclesPerArea = maxVehiclesPerArea;
     server.decayManager.vehicleDamageRange = vehicleDamageRange;
+    server.decayManager.dailyRepairMaterials = dailyRepairMaterials;
     //#endregion
 
     //#region smelting

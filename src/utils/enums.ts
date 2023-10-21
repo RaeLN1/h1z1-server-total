@@ -22,7 +22,9 @@ export enum BAN_INFO {
   GLOBAL_BAN = 2,
   VPN = 3,
   HWID = 4,
-  UNVERIFIED = 5
+  UNVERIFIED = 5,
+  SERVER_LOCKED = 6,
+  SERVER_REBOOT = 7
 }
 
 export enum NAME_VALIDATION_STATUS {
@@ -55,4 +57,10 @@ export enum DB_COLLECTIONS {
   KILLS = "kills",
   BANNED_LIGHT = "banned-light",
   MUTED = "muted"
+}
+
+export enum LOGIN_KICK_REASON {
+  UNDEFINED = 0,
+  GLOBAL_BAN = 1,
+  ASSET_VALIDATION = 2
 }

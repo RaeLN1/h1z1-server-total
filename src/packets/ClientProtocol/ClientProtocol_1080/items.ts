@@ -25,13 +25,35 @@ export function parseItemRequestSubData(data: h1z1Buffer, offset: number) {
     offset += 4;
     obj["unknownDword2"] = data.readUInt32LE(offset);
     offset += 4;
+    obj["subType"] = data.readUInt32LE(offset);
+    offset += 4;
+
+    if (obj["subType"] == 1) {
+      obj["count"] = data.readUInt32LE(offset);
+      offset += 4;
+      obj["unknownQword1"] = data.readUInt64String(offset);
+      offset += 8;
+      obj["unknownByte1"] = data.readUInt8(offset);
+      offset += 1;
+      return {
+        value: obj,
+        length: offset - startOffset
+      };
+    }
+
     obj["unknownDword3"] = data.readUInt32LE(offset);
     offset += 4;
-    obj["count"] = data.readUInt32LE(offset);
+    obj["unknownDword4"] = data.readUInt32LE(offset);
     offset += 4;
-    obj["unknownQword1"] = data.readUInt64String(offset);
+    obj["targetItemGuid"] = data.readUInt64String(offset);
     offset += 8;
-    obj["unknownQword2"] = data.readUInt64String(offset);
+    obj["unknownDword5"] = data.readUInt32LE(offset);
+    offset += 4;
+    obj["unknownDword6"] = data.readUInt32LE(offset);
+    offset += 4;
+    obj["characterId"] = data.readUInt64String(offset);
+    offset += 8;
+    obj["unknownQword1"] = data.readUInt64String(offset);
     offset += 8;
   }
 
